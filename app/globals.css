@@ -71,7 +71,6 @@ main {
   display: flex;
   flex-direction: column;
   position: relative;
-  border-top: 1px solid var(--highlight-color);
 }
 
 aside {
@@ -122,6 +121,17 @@ legend {
   font-size: 18px;
 }
 
+.headerTopic, .headerTopic span{
+  display: flex;
+  align-items: center;
+  margin: 10px;
+}
+
+.headerTopic h1{
+  font-size: 50px;
+  text-wrap: nowrap;
+}
+
 /* Responsive: No need for aside */
 @media only screen and (max-width: 700px) {
   .container {
@@ -132,5 +142,10 @@ legend {
       "header"
       "main"
       "footer";
+      row-gap: 8px;
+  }
+
+  .headerTopic h1 {
+    font-size: 30px;
   }
 }

@@ -6,7 +6,8 @@ interface ContentCardProps {
   title: string
   description: string
   primaryAction: string
-  secondaryAction?: string
+  category: string
+  author: string
 }
 
 export default function ContentCard({
@@ -15,7 +16,8 @@ export default function ContentCard({
   title,
   description,
   primaryAction,
-  secondaryAction,
+  category,
+  author,
 }: ContentCardProps) {
 
   return (
@@ -27,15 +29,15 @@ export default function ContentCard({
 
       <div className={styles.contentText}>
         <div className={styles.contentHeader}>
-            <p className={styles.contentCategory}>DIY CAR REPAIR</p>
+          <p className={styles.contentCategory}>{category}</p>
 
-        <h5 className={styles.contentTitle}>
-          <a href="#">{title}</a>
-        </h5>
+          <h5 className={styles.contentTitle}>
+            <a href="#">{title}</a>
+          </h5>
 
-        <p className={styles.contentMeta}>
-          <small>By <a href="#">LeonW</a> on <a href="#">{date}</a></small>
-        </p>
+          <p className={styles.contentMeta}>
+            <small>By <a href="#">{author}</a> on <a href="#">{date}</a></small>
+          </p>
         </div>
 
         <div className={styles.contentDescription}>
