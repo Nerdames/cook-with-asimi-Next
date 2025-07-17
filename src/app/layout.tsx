@@ -3,6 +3,8 @@ import Navbar from '@/components/Navbar/Navbar'
 import Logo from '@/components/Logo/Logo'  // import Logo
 import Aside from '@/components/Aside/Aside'
 import Footer from '@/components/Footer/Footer'
+import 'boxicons/css/boxicons.min.css'
+
 
 export const metadata = {
   title: 'Cook With Asimi',

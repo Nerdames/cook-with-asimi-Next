@@ -4,13 +4,22 @@
   gap: 20px;
   padding: 50px 20px;
   background-color: var(--highlight-color);
+  align-items: center;       /* vertically center each grid item */
+  justify-items: center;     /* horizontally center each grid item */
 }
+
 
 .footer1Item {
   display: flex;
   flex-direction: column;
   text-align: center;
-  padding-top: 50px;
+  justify-content: center;
+  row-gap: 10px;
+}
+
+.footer1Item ul {
+  list-style: none;
+  padding: 0;
 }
 
 .itemTopic {
@@ -23,8 +32,16 @@
   user-select: none;
 }
 
+.footer1Item li {
+  display: flex;
+  align-items: center;
+}
+
 .footer1Item li a {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   padding: 12px 0;
   position: relative;
@@ -34,78 +51,25 @@
   text-decoration: none;
 }
 
-.footer1Item li a:hover {
-  color: goldenrod;
-  font-weight: bold;
-}
-
-.itemTopic2 {
-  color: goldenrod;
-  font-size: 20px;
-  margin: 10px 0;
-}
-
-.aboutImg {
-  display: flex;
-  width: min(300px, 100%);
-  clip-path: circle();
-  object-fit: cover;
-  margin: 20px auto;
-}
-
-.aboutImg img {
-  width: 100%;
-}
-
-.footer2 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 80px;
-  background-color: white;
-  font-size: 14px;
-  text-align: center;
-  padding: 0 10px;
-}
-
-/* === Socials Integration with Hover === */
-.socials {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  list-style: none;
-  padding: 0;
-  margin-top: 12px;
-}
-
-.socials li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 20px;
-  color: var(--text-color);
-  justify-content: center;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.socials li i {
+.footer1Item li a i {
   font-size: 24px;
   color: var(--text-color);
   transition: color 0.3s ease;
 }
 
-.socials li span {
-  color: var(--text-color);
+.footer1Item li a span {
   font-size: 18px;
   transition: color 0.3s ease;
 }
 
-.socials li:hover i,
-.socials li:hover span {
+.footer1Item li a:hover,
+.footer1Item li a:hover i,
+.footer1Item li a:hover span {
   color: var(--primary-color);
+  font-weight: 600;
 }
 
+/* === Footer2 Styling === */
 .footer2 {
   display: flex;
   justify-content: center;
@@ -115,8 +79,9 @@
   font-size: 0.9rem;
   padding: 10px 0;
   color: var(--text-light);
+  background-color: white;
   border-top: 1px solid var(--border-color);
-  flex-wrap: wrap; /* allows wrapping on smaller widths */
+  flex-wrap: wrap;
 }
 
 .footer2 p {
@@ -129,6 +94,6 @@
   .footer2 {
     flex-direction: column;
     gap: 5px;
+    height: auto;
   }
 }
-

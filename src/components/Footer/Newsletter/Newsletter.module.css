@@ -7,45 +7,46 @@
   background-color: var(--light-bg);
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
-  max-width: 400px;
-  margin: 20px auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .newsletter h3 {
   font-size: 1.5rem;
-  margin-bottom: 10px;
   color: var(--text-dark);
   user-select: none;
 }
 
 .newsletter p {
   font-size: 0.9rem;
-  margin-bottom: 20px;
   color: var(--text-dark);
   user-select: none;
 }
 
 .newsletterForm {
   display: flex;
+  flex-direction: column;  /* Always vertical */
   width: 100%;
+  gap: 10px; /* spacing between input and button */
 }
 
 .newsletterForm input {
-  flex: 1;
+  width: 100%;
   padding: 10px;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px 0 0 4px;
+  border-radius: 4px;
   outline: none;
 }
 
 .newsletterForm button {
-  padding: 10px 20px;
+  width: 100%;
+  padding: 10px;
   font-size: 1rem;
   background-color: var(--primary-color);
   color: var(--text-color);
   border: none;
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
   cursor: pointer;
 }
 
@@ -53,18 +54,9 @@
   background-color: var(--highlight-color);
 }
 
-/* Responsive stacking for narrow screens */
-@media (max-width: 500px) {
-  .newsletterForm {
-    flex-direction: column;
-  }
-
-  .newsletterForm input {
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-
-  .newsletterForm button {
-    border-radius: 4px;
+/* Mobile view: restrict width to 250px */
+@media (max-width: 600px) {
+  .newsletter {
+    width: 250px;
   }
 }

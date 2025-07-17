@@ -1,24 +1,28 @@
 import React from 'react'
 import styles from './Footer.module.css'
-import { BiEnvelope } from 'react-icons/bi'
-import { BsLinkedin, BsWhatsapp } from 'react-icons/bs'
 
 const FooterSocials: React.FC = () => {
   return (
     <div className={styles.footer1Item}>
       <p className={styles.itemTopic}>Contact Us</p>
-      <ul className={styles.socials}>
+      <ul>
         <li>
-          <BiEnvelope size={20} />
-          <span>Email</span>
+          <a href="mailto:example@example.com" target="_blank" rel="noopener noreferrer">
+            <i className='bx bx-envelope'></i>
+            <span>Email</span>
+          </a>
         </li>
         <li>
-          <BsLinkedin size={20} />
-          <span>LinkedIn</span>
+          <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+            <i className='bx bxl-linkedin'></i>
+            <span>LinkedIn</span>
+          </a>
         </li>
         <li>
-          <BsWhatsapp size={20} />
-          <span>WhatsApp</span>
+          <a href="https://wa.me/yourwhatsapplink" target="_blank" rel="noopener noreferrer">
+            <i className='bx bxl-whatsapp'></i>
+            <span>WhatsApp</span>
+          </a>
         </li>
       </ul>
     </div>
