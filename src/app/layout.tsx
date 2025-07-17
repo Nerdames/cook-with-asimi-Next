@@ -1,10 +1,10 @@
 import './globals.css'
 import Navbar from '@/components/Navbar/Navbar'
-import Logo from '@/components/Logo/Logo'  // import Logo
-import Aside from '@/components/Aside/Aside'
+import Logo from '@/components/Logo/Logo'
+import Recomended from '@/components/Recomended/Recomended'
 import Footer from '@/components/Footer/Footer'
+import ScrollToTop from '@/components/ScrollToTop/ScrollToTop'
 import 'boxicons/css/boxicons.min.css'
-
 
 export const metadata = {
   title: 'Cook With Asimi',
@@ -22,18 +22,14 @@ export default function RootLayout({
         <div className="container">
           <nav>
             <Navbar />
-            <Logo />   {/* Logo just below Navbar */}
+            <Logo />
           </nav>
 
-          <header>
-
-          </header>
+          <header></header>
 
           {children}
 
-          <aside>
-            <Aside />
-          </aside>
+          <ScrollToTop />   {/* <-- Add here */}
 
           <footer>
             <Footer />

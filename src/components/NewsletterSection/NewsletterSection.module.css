@@ -1,0 +1,137 @@
+/* Default styles remain unchanged */
+
+.newsletterSection {
+  background-image: url('/1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  box-sizing: border-box;
+  color: var(--text-color);
+  position: relative;
+  margin: 20px 0;
+}
+
+.overlay {
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  padding: 20px 40px;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.textContent {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.textContent h2 {
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+.textContent p {
+  font-size: 1rem;
+  color: #f0f0f0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form input[type="text"],
+.form input[type="email"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submitButton:hover {
+  background-color: var(--highlight-color);
+}
+
+.privacyNote {
+  font-size: 0.8rem;
+  color: #ddd;
+}
+
+
+/* ----------- Improved Media Queries ----------- */
+
+/* Tablets (768px and below) */
+@media (max-width: 768px) {
+  .overlay {
+    width: 60%;
+    padding: 20px;
+  }
+
+  .textContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .textContent p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Phones (480px and below) */
+@media (max-width: 480px) {
+  .overlay {
+    width: 100%;
+    border-radius: 0;
+    padding: 30px;
+  }
+
+  .textContent h2 {
+    font-size: 1.3rem;
+  }
+
+  .textContent p {
+    font-size: 0.9rem;
+  }
+
+  .form input[type="text"],
+  .form input[type="email"] {
+    font-size: 0.9rem;
+  }
+
+  .submitButton {
+    font-size: 0.95rem;
+    padding: 8px;
+  }
+
+  .checkbox {
+    font-size: 0.85rem;
+  }
+
+  .privacyNote {
+    font-size: 0.75rem;
+  }
+}

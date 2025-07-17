@@ -1,4 +1,5 @@
 import React from "react";
+import SearchBar from '@/components/SearchBar/SearchBar'
 import styles from "./TagFilter.module.css";
 
 interface TagFilterProps {
@@ -11,16 +12,24 @@ const TagFilter: React.FC<TagFilterProps> = ({ tags = [], selectedTag, onSelectT
   if (!Array.isArray(tags) || tags.length === 0) return null;
 
   return (
-    <div className={styles.tagFilter}>
-      {tags.map((tag) => (
-        <button
-          key={tag}
-          className={selectedTag === tag ? styles.active : ""}
-          onClick={() => onSelectTag(tag)}
-        >
-          {tag}
-        </button>
-      ))}
+    <div className={styles.tagFilterContainer}>
+      
+      <div className={styles.filterLeft}>
+        {tags.map((tag) => (
+          <button
+            key={tag}
+            className={selectedTag === tag ? styles.active : ""}
+            onClick={() => onSelectTag(tag)}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
+
+      <div className={styles.filterRight}>
+        <SearchBar />
+      </div>
+
     </div>
   );
 };

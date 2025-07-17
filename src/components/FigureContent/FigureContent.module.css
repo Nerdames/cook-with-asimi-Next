@@ -1,74 +1,114 @@
 .figContent {
-  display: grid;
-  grid-template-columns: 60% 40%;
-  overflow: hidden;
+  position: relative;
+  width: 100%;
   max-width: 360px;
   min-width: 320px;
   margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .figImg {
+  position: relative;
   width: 100%;
+  height: 300px; /* Increased base height */
+  overflow: hidden;
 }
 
 .figImg img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   border-radius: 4px;
+  transition: transform 0.5s ease;
 }
 
-.figBrief {
+.figOverlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
   display: flex;
+  justify-content: center;
   align-items: center;
-  font-size: clamp(0.85rem, 1vw + 0.5rem, 1.1rem);
-  color: var(--text-dark);
-  padding: 0 8px;
-  user-select: none;
+  border-radius: 4px;
+  text-align: center;
+  padding: 12px;
+  transition: background 0.4s ease, font-size 0.3s ease;
 }
 
+.figOverlay p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin: 0;
+}
 
+.figContent:hover .figOverlay {
+  background: rgba(0,0,0,0.5);
+}
 
-/* Medium tablets (<=900px) */
+.figContent:hover img {
+  transform: scale(1.05);
+}
+
+/* Tag Styling */
+.figTag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: var(--highlight-color);
+  color: var(--text-color);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* --- Responsive Improvements --- */
+
+/* Tablets */
 @media (max-width: 900px) {
   .figContent {
-    max-width: 90%;
-  }
-
-  .figBrief {
-    font-size: clamp(0.9rem, 1vw + 0.5rem, 1.15rem);
-  }
-}
-
-/* Small tablets and large phones (<=768px) */
-@media (max-width: 768px) {
-  .figContent {
-    grid-template-columns: 55% 45%;
     max-width: 100%;
   }
-
-  .figBrief {
-    font-size: clamp(1rem, 1vw + 0.6rem, 1.2rem);
+  
+  .figOverlay p {
+    font-size: 1rem;
   }
 }
 
-/* Phones (<=480px) */
+/* Small Tablets & Phones */
+@media (max-width: 768px) {
+    
+  .figOverlay {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+  .figOverlay p {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Phones */
 @media (max-width: 480px) {
   .figContent {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
     max-width: 100%;
+    min-width: unset;
   }
-
-  .figBrief {
-    justify-content: center;
-    text-align: center;
-    font-size: clamp(1rem, 2vw + 0.5rem, 1.3rem);
-    padding: 8px 12px;
+  
+  .figOverlay {
+    font-size: 0.85rem;
+    padding: 8px;
   }
-
-  .figImg {
-    margin-bottom: 8px;
+  .figOverlay p {
+    font-size: 0.9rem;
+  }
+  .figTag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
   }
 }

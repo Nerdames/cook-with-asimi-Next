@@ -41,14 +41,13 @@ p, h1, h2, h3, h4, h5 {
 /* Layout Grid */
 .container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto auto auto auto;
   grid-template-areas:
-    "nav nav nav nav"
-    "header header header header"
-    "main main main aside"
-    "footer footer footer footer";
-  height: 100vh;
+    "nav"
+    "header"
+    "main"
+    "footer";
   width: 100%;
   row-gap: 20px;
 }
@@ -76,9 +75,7 @@ main {
 }
 
 aside {
-  grid-area: aside;
-  display: flex;
-  flex-direction: column;
+  display: none;  /* Removed aside from layout */
 }
 
 footer {
@@ -118,8 +115,6 @@ button:hover {
   background: var(--light-bg);
 }
 
-
-
 legend {
   text-align: center;
   width: 100%;
@@ -127,7 +122,7 @@ legend {
   font-size: 18px;
 }
 
-/* Responsive */
+/* Responsive: No need for aside */
 @media only screen and (max-width: 700px) {
   .container {
     grid-template-columns: 1fr;
@@ -136,7 +131,6 @@ legend {
       "nav"
       "header"
       "main"
-      "aside"
       "footer";
   }
 }

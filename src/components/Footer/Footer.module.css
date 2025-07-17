@@ -93,7 +93,16 @@
 @media (max-width: 600px) {
   .footer2 {
     flex-direction: column;
-    gap: 5px;
+    row-gap: 10px;
     height: auto;
   }
+
+  .footer1Item {
+    border-bottom: 1px solid var(--bg-black-color);
+    width: 100%;
+  }
+
+    .footer1Item:last-child {
+        border-bottom: none;
+    }
 }

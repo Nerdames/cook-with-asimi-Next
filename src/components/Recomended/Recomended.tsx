@@ -1,6 +1,6 @@
-import SearchBar from '@/components/SearchBar/SearchBar'
+
 import FigureContent from '@/components/FigureContent/FigureContent'
-import styles from './Aside.module.css'
+import styles from './Recomended.module.css'
 
 const figureItems = [
   { id: 1, image: 'https://picsum.photos/140/100?random=1', text: "How to Clean Your Car's Undercarriage" },
@@ -13,14 +13,13 @@ const figureItems = [
   { id: 8, image: 'https://picsum.photos/140/100?random=8', text: "How to Clean Your Car's Undercarriage" },
 ]
 
-export default function Aside() {
+export default function Recomended() {
   return (
-    <aside>
-      <SearchBar />
+    <section className={styles.recomendedSection}>
 
-      <fieldset className={styles.fieldset}>
-        <legend className={styles.legend}>Recommended for You</legend>
+      <h3 className={styles.title}>Recommended for You</h3>
 
+      <div className={styles.figureContainer}>
         {figureItems.map(item => (
           <FigureContent
             key={item.id}
@@ -28,7 +27,7 @@ export default function Aside() {
             text={item.text}
           />
         ))}
-      </fieldset>
-    </aside>
+      </div>
+    </section>
   )
 }
