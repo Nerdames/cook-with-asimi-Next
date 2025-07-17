@@ -1,0 +1,53 @@
+import styles from './ContentCard.module.css'
+
+interface ContentCardProps {
+  image: string
+  date: string
+  title: string
+  description: string
+  primaryAction: string
+  secondaryAction?: string // ✅ Add this
+}
+
+
+export default function ContentCard({
+  image,
+  date,
+  title,
+  description,
+  primaryAction,
+  secondaryAction, // ✅ Add this
+}: ContentCardProps) {
+
+  return (
+    <article className={styles.contentCard}>
+      <p className={styles.contentCategory}>DIY CAR REPAIR</p>
+
+      <h5 className={styles.contentTitle}>
+        <a href="#">{title}</a>
+      </h5>
+
+      <p className={styles.contentMeta}>
+        <small>By <a href="#">LeonW</a> on <a href="#">{date}</a></small>
+      </p>
+
+      <div className={styles.contentImage}>
+        <img src={image} alt={title} />
+      </div>
+
+      <div className={styles.contentDescription}>
+        <p>{description}</p>
+      </div>
+
+      <div className={styles.contentFooter}>
+        <button>{primaryAction}</button>
+
+        <div className={styles.contentSocials}>
+          <i className="bx bxl-facebook"></i>
+          <i className="bx bxl-twitter"></i>
+          <i className="bx bxl-youtube"></i>
+        </div>
+      </div>
+    </article>
+  )
+}

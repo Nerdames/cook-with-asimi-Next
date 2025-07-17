@@ -1,0 +1,7 @@
+.homeMain {
+  width: 100%;            /* full width */
+  margin: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}

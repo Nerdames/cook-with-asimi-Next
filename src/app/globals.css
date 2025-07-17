@@ -1,26 +1,143 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary-color:       #DAA520; /* goldenrod */
+  --bg-black-color:      #000000; /* black */
+  --light-bg:            rgba(248, 248, 248, 0.785);
+  --bg-white-color:      #FFFFFF; /* white */
+  --text-color:          #FFFFFF; /* white */
+  --text-dark:           #000000; /* black */
+  --highlight-color:     #636368; /* grey highlight */
+  --border-radius:       8px;     /* border radius */
+  --buttton-border-radius: 4px; /* button border radius */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Reset and Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Times New Roman', Times, serif;
+  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  list-style: none;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  background-color: var(--light-bg);
+  color: var(--text-dark);
+}
+
+a {
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+p, h1, h2, h3, h4, h5 {
+  line-height: 40px;
+  font-size: 16px;
+  color: var(--text-dark);
+}
+
+/* Layout Grid */
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas:
+    "nav nav nav nav"
+    "header header header header"
+    "main main main aside"
+    "footer footer footer footer";
+  height: 100vh;
+  width: 100%;
+  row-gap: 20px;
+}
+
+/* Navigation */
+nav {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grid Areas */
+header {
+  grid-area: header;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-top: 1px solid var(--highlight-color);
+}
+
+aside {
+  grid-area: aside;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  grid-area: footer;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--highlight-color);
+  color: var(--text-color);
+  padding: 1rem;
+}
+
+/* Button Styling */
+button {
+  border: none;
+  border-radius: var(--buttton-border-radius);
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: darkgoldenrod;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--highlight-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-bg);
+}
+
+
+
+legend {
+  text-align: center;
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* Responsive */
+@media only screen and (max-width: 700px) {
+  .container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "nav"
+      "header"
+      "main"
+      "aside"
+      "footer";
+  }
 }

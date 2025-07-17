@@ -1,0 +1,65 @@
+.tagFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-start;
+  overflow: visible;
+  margin: 10px 20px;
+}
+
+.tagFilter button {
+  white-space: nowrap;
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: var(--buttton-border-radius);
+  border: 1px solid var(--highlight-color);
+  background: var(--light-bg);
+  color: var(--text-dark);
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-weight: normal;
+}
+
+.tagFilter button:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: var(--bg-white-color);
+  transform: scale(1.05);
+  font-weight: normal;
+}
+
+.tagFilter button.active {
+  background-color: var(--bg-black-color);
+  color: var(--bg-white-color);
+  border-color: var(--primary-color);
+  font-weight: normal;
+}
+
+/* Enable horizontal scroll on small screens */
+@media (max-width: 768px) {
+  .tagFilter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .tagFilter::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  .tagFilter button {
+    flex: 0 0 auto;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tagFilter button {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
