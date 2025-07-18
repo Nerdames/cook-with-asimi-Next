@@ -1,9 +1,43 @@
-import React from 'react';
-import styles from './NewsletterSection.module.css';
+'use client'
 
-const NewsletterSection: React.FC = () => {
+import { useEffect, useState } from 'react'
+import { sanityClient } from '@/lib/sanityClient'
+import { groq } from 'next-sanity'
+import styles from './NewsletterSection.module.css'
+
+export default function NewsletterSection() {
+  const [backgroundImage, setBackgroundImage] = useState<string>('')
+
+  useEffect(() => {
+    async function fetchThumbnails() {
+      try {
+        const query = groq`
+          *[_type == "blog" && defined(thumbnail.asset->url)]{
+            thumbnail { asset->{ url } }
+          }
+        `
+        const data = await sanityClient.fetch(query)
+        if (data.length > 0) {
+          const randomIndex = Math.floor(Math.random() * data.length)
+          setBackgroundImage(data[randomIndex].thumbnail.asset.url)
+        }
+      } catch (err) {
+        console.error('Failed to fetch thumbnails from Sanity', err)
+      }
+    }
+
+    fetchThumbnails()
+  }, [])
+
   return (
-    <section className={styles.newsletterSection}>
+    <section
+      className={styles.newsletterSection}
+      style={{
+        backgroundImage: backgroundImage ? `url(${backgroundImage})` : undefined,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className={styles.overlay}>
         <div className={styles.textContent}>
           <h2>Join My Exclusive Cooking Newsletter</h2>
@@ -28,7 +62,5 @@ const NewsletterSection: React.FC = () => {
         </div>
       </div>
     </section>
-  );
-};
-
-export default NewsletterSection;
+  )
+}
