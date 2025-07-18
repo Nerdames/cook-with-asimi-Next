@@ -1,18 +1,64 @@
-import Link from 'next/link'
 import styles from './Pager.module.css'
 import 'boxicons/css/boxicons.min.css'
 
-const Pager: React.FC = () => {
+interface PagerProps {
+  currentPage: number
+  totalPages: number
+  onPageChange: (page: number) => void
+}
+
+const Pager: React.FC<PagerProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
+  const createPageRange = () => {
+    const range: number[] = []
+    const delta = 2
+
+    const start = Math.max(1, currentPage - delta)
+    const end = Math.min(totalPages, currentPage + delta)
+
+    for (let i = start; i <= end; i++) {
+      range.push(i)
+    }
+
+    return range
+  }
+
   return (
     <div className={styles.pager}>
-      <Link href="/page/1" className={`${styles['pager-item']} ${styles.active}`}>1</Link>
-      <Link href="/page/2" className={styles['pager-item']}>2</Link>
-      <Link href="/page/3" className={styles['pager-item']}>3</Link>
-      <Link href="/page/4" className={styles['pager-item']}>4</Link>
-      <Link href="/page/2" className={styles['pager-item']}>
-        <span>Next</span>
-        <i className="bx bx-right-arrow-alt"></i>
-      </Link>
+      {currentPage > 1 && (
+        <button
+          className={styles['pager-item']}
+          onClick={() => onPageChange(currentPage - 1)}
+        >
+          <i className="bx bx-left-arrow-alt" />
+          Prev
+        </button>
+      )}
+
+      {createPageRange().map((page) => (
+        <button
+          key={page}
+          className={`${styles['pager-item']} ${
+            currentPage === page ? styles.active : ''
+          }`}
+          onClick={() => onPageChange(page)}
+        >
+          {page}
+        </button>
+      ))}
+
+      {currentPage < totalPages && (
+        <button
+          className={styles['pager-item']}
+          onClick={() => onPageChange(currentPage + 1)}
+        >
+          Next
+          <i className="bx bx-right-arrow-alt" />
+        </button>
+      )}
     </div>
   )
 }

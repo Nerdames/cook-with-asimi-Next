@@ -24,17 +24,33 @@ export default function ContentFeed() {
   const [selectedTag, setSelectedTag] = useState('All')
   const [uniqueTags, setUniqueTags] = useState<string[]>(['All'])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const blogsPerPage = 6
 
   useEffect(() => {
     async function fetchBlogs() {
+      setLoading(true)
       try {
-        const res = await fetch('/api/blogs')
-        const data = await res.json()
-        if (data.success) {
-          setBlogs(data.data)
+        const queryParams = new URLSearchParams({
+          page: currentPage.toString(),
+          limit: blogsPerPage.toString(),
+          ...(selectedTag !== 'All' && { tag: selectedTag }),
+        })
 
-          const tags = data.data.flatMap((blog: Blog) => blog.tags)
-          setUniqueTags(['All', ...Array.from(new Set(tags)) as string[]])
+        const res = await fetch(`/api/blogs?${queryParams}`)
+        const data = await res.json()
+
+        if (data.success) {
+          const allBlogs = data.data
+          setTotalPages(Math.ceil(data.total / blogsPerPage))
+          setBlogs(allBlogs)
+
+          if (selectedTag === 'All') {
+            const tags = allBlogs.flatMap((blog: Blog) => blog.tags)
+            setUniqueTags(['All', ...Array.from(new Set(tags as string[]))])
+          }
         }
       } catch (error) {
         console.error('Failed to fetch blogs:', error)
@@ -42,27 +58,27 @@ export default function ContentFeed() {
         setLoading(false)
       }
     }
-    fetchBlogs()
-  }, [])
 
-  const filteredBlogs =
-    selectedTag === 'All'
-      ? blogs
-      : blogs.filter(blog => blog.tags.includes(selectedTag))
+    fetchBlogs()
+  }, [currentPage, selectedTag])
+
+  const handleTagSelect = (tag: string) => {
+    setSelectedTag(tag)
+    setCurrentPage(1)
+  }
 
   return (
     <section className={styles.contentFeed}>
       <TagFilter
         tags={uniqueTags}
         selectedTag={selectedTag}
-        onSelectTag={setSelectedTag}
+        onSelectTag={handleTagSelect}
       />
 
       {loading ? (
-        // Render 4 placeholder skeleton cards while loading
-        Array.from({ length: 4 }).map((_, i) => <SkeletonCard key={i} />)
+        Array.from({ length: blogsPerPage }).map((_, i) => <SkeletonCard key={i} />)
       ) : (
-        filteredBlogs.map(blog => (
+        blogs.map(blog => (
           <ContentCard
             key={blog._id}
             id={blog._id}
@@ -83,12 +99,18 @@ export default function ContentFeed() {
             }
             tags={blog.tags}
             primaryAction="Read More"
-            onTagClick={setSelectedTag}
+            onTagClick={handleTagSelect}
           />
         ))
       )}
 
-      {!loading && <Pager />}
+      {!loading && totalPages > 1 && (
+        <Pager
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={(page: number) => setCurrentPage(page)}
+        />
+      )}
     </section>
   )
 }
