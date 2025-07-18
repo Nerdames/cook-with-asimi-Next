@@ -1,33 +1,52 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { sanityClient } from '@/lib/sanityClient'
+import { groq } from 'next-sanity'
 import styles from './HeroCarousel.module.css'
 
-const posts = [
-  {
-    id: 1,
-    title: 'Featured Post',
-    description: 'This is a brief description of the featured post.',
-    image: 'https://picsum.photos/800/400?random=1',
-  },
-  {
-    id: 2,
-    title: 'Hot Post 1',
-    description: 'Brief description for hot post 1.',
-    image: 'https://picsum.photos/400/200?random=2',
-  },
-  {
-    id: 3,
-    title: 'Hot Post 2',
-    description: 'Brief description for hot post 2.',
-    image: 'https://picsum.photos/400/200?random=3',
-  },
-]
+interface BlogPost {
+  _id: string
+  title: string
+  description: string
+  thumbnail?: { asset: { url: string } }
+}
 
 export default function HeroCarousel() {
+  const [posts, setPosts] = useState<BlogPost[]>([])
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const query = groq`
+        *[_type == "blog"] | order(date desc)[0...3] {
+          _id,
+          title,
+          description,
+          thumbnail { asset->{ url } }
+        }
+      `
+      try {
+        const data: BlogPost[] = await sanityClient.fetch(query)
+        setPosts(data)
+      } catch (err) {
+        console.error('Failed to fetch hero carousel posts', err)
+      }
+    }
+
+    fetchPosts()
+  }, [])
+
+  if (posts.length === 0) return <p>Loading posts...</p>
+
   return (
     <section className={styles.heroSection}>
       <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
       <div className={styles.heroCarouselGrid}>
         <div className={`${styles.featuredPost} ${styles.post}`}>
-          <img src={posts[0].image} alt={posts[0].title} />
+          <img
+            src={posts[0].thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
+            alt={posts[0].title}
+          />
           <div className={styles.postOverlay}>
             <h2>{posts[0].title}</h2>
             <p>{posts[0].description}</p>
@@ -36,8 +55,11 @@ export default function HeroCarousel() {
 
         <div className={styles.hotPosts}>
           {posts.slice(1).map(post => (
-            <div key={post.id} className={`${styles.hotPost} ${styles.post}`}>
-              <img src={post.image} alt={post.title} />
+            <div key={post._id} className={`${styles.hotPost} ${styles.post}`}>
+              <img
+                src={post.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
+                alt={post.title}
+              />
               <div className={styles.postOverlay}>
                 <h3>{post.title}</h3>
                 <p>{post.description}</p>
