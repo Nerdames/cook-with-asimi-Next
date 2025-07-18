@@ -22,7 +22,6 @@ export default function RootLayout({
         <div className="container">
           <nav>
             <Navbar />
-            <Logo />
           </nav>
 
           <header>

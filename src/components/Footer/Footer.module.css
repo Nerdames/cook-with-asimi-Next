@@ -3,7 +3,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
   padding: 50px 20px;
-  background-color: var(--highlight-color);
+  background-color: var(--bg-black-color);
   align-items: center;       /* vertically center each grid item */
   justify-items: center;     /* horizontally center each grid item */
 }

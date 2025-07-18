@@ -1,33 +1,22 @@
 .logo {
   text-align: center;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
   min-width: 100%;
   user-select: none;
-  padding: 20px 0 10px 0;  /* top:20px, right:0, bottom:10px, left:0 */
 }
 
 
 .logo h1 {
-  color: var(--text-dark);
+  color: var(--text-color);
   font-weight: 500;
   font-size: 40px;
 }
 
 
-.logo p {
-  font-size: 20px;
-}
-
 /* Tablets */
 @media (max-width: 1024px) {
   .logo h1 {
     font-size: 32px;
-  }
-
-  .logo p {
-    font-size: 18px;
   }
 }
 
@@ -36,19 +25,11 @@
   .logo h1 {
     font-size: 28px;
   }
-
-  .logo p {
-    font-size: 16px;
-  }
 }
 
 /* Small mobile */
 @media (max-width: 400px) {
   .logo h1 {
     font-size: 24px;
-  }
-
-  .logo p {
-    font-size: 14px;
   }
 }

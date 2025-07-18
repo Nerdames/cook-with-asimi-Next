@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { BiMenu, BiX } from 'react-icons/bi'
 import styles from './Navbar.module.css'
+import Logo from '@/components/Logo/Logo'
 import clsx from 'clsx'
 
 const navItems = [
@@ -45,7 +46,12 @@ export default function Navbar() {
       )}
     >
       <div className={styles.navLeft}>
-        <ul className={clsx(styles.pages, isMobileMenuOpen && styles.mobileOpen)}>
+
+        <Logo />
+
+      </div>
+      <div className={clsx(styles.navCenter, isMobileMenuOpen && styles.mobileOpen)}>
+                <ul className={clsx(styles.pages, isMobileMenuOpen && styles.mobileOpen)}>
           {navItems.map(({ path, label }) => (
             <li key={path}>
               <Link

@@ -2,8 +2,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--highlight-color);
-  padding: 0 20px;
+  background-color: var(--bg-black-color);
+  padding: 0 10px;
   z-index: 1000;
   transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s ease-in-out;
   width: 100%;
@@ -37,6 +37,15 @@
   display: flex;
   align-items: center;
 }
+
+.navCenter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+  margin-left: 40px;  /* adds space between logo and nav items */
+}
+
 
 .pages {
   display: flex;

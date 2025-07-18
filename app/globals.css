@@ -123,12 +123,6 @@ button:hover {
   background: var(--light-bg);
 }
 
-legend {
-  text-align: center;
-  width: 100%;
-  font-weight: bold;
-  font-size: 18px;
-}
 
 .headerTopic, .headerTopic span{
   display: flex;
