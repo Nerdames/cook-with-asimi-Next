@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
 import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
@@ -58,7 +59,8 @@ export default function HeroCarousel() {
     <section className={styles.heroSection}>
       <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
       <div className={styles.heroCarouselGrid}>
-        <div className={`${styles.featuredPost} ${styles.post}`}>
+
+        <Link href={`/blogs/${posts[0]?._id}`} className={`${styles.featuredPost} ${styles.post}`}>
           <img
             src={posts[0]?.thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
             alt={posts[0]?.title || 'Featured Post'}
@@ -66,11 +68,15 @@ export default function HeroCarousel() {
           <div className={styles.postOverlay}>
             <h2>{posts[0]?.title}</h2>
           </div>
-        </div>
+        </Link>
 
         <div className={styles.hotPosts}>
           {posts.slice(1).map(post => (
-            <div key={post._id} className={`${styles.hotPost} ${styles.post}`}>
+            <Link
+              href={`/blogs/${post._id}`}
+              key={post._id}
+              className={`${styles.hotPost} ${styles.post}`}
+            >
               <img
                 src={post.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
                 alt={post.title}
@@ -78,9 +84,10 @@ export default function HeroCarousel() {
               <div className={styles.postOverlay}>
                 <h3>{post.title}</h3>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
+
       </div>
     </section>
   )
