@@ -1,6 +1,8 @@
+import Link from 'next/link'
 import styles from './ContentCard.module.css'
 
 interface ContentCardProps {
+  id: string
   image?: string
   video?: string
   date: string
@@ -14,6 +16,7 @@ interface ContentCardProps {
 }
 
 export default function ContentCard({
+  id,
   image,
   video,
   date,
@@ -33,7 +36,6 @@ export default function ContentCard({
 
   return (
     <article className={styles.contentCard}>
-
       <div className={styles.contentImage}>
         {image ? (
           <img src={image} alt={title} />
@@ -57,11 +59,11 @@ export default function ContentCard({
           <p className={styles.contentCategory}>{category}</p>
 
           <h5 className={styles.contentTitle}>
-            <a href="#">{title}</a>
+            <Link href={`/blogs/${id}`}>{title}</Link>
           </h5>
 
           <p className={styles.contentMeta}>
-            <small>By <a href="#">{author}</a> on <a href="#">{formattedDate}</a></small>
+            <small>By <span>{author}</span> on <span>{formattedDate}</span></small>
           </p>
         </div>
 
@@ -76,7 +78,7 @@ export default function ContentCard({
                 <li
                   key={index}
                   className={styles.tag}
-                  onClick={() => onTagClick && onTagClick(tag)}
+                  onClick={() => onTagClick?.(tag)}
                   style={{ cursor: onTagClick ? 'pointer' : 'default' }}
                 >
                   {tag}
@@ -87,10 +89,11 @@ export default function ContentCard({
         )}
 
         <div className={styles.contentFooter}>
-          <button>{primaryAction}</button>
+          <Link href={`/blogs/${id}`}>
+            <button>{primaryAction}</button>
+          </Link>
         </div>
       </div>
-
     </article>
   )
 }

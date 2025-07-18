@@ -10,12 +10,12 @@ interface Blog {
   _id: string
   title: string
   description: string
-  thumbnail: { asset: { url: string } }
-  video: string
+  thumbnail?: { asset: { url: string } }
+  video?: string
   tags: string[]
   date?: string
-  author: string
-  category: string
+  author: { name: string } | string
+  category: { title: string } | string
 }
 
 export default function ContentFeed() {
@@ -25,19 +25,24 @@ export default function ContentFeed() {
 
   useEffect(() => {
     async function fetchBlogs() {
-      const res = await fetch('/api/blogs')
-      const data = await res.json()
-      if (data.success) {
-        setBlogs(data.data)
+      try {
+        const res = await fetch('/api/blogs')
+        const data = await res.json()
+        if (data.success) {
+          setBlogs(data.data)
 
-        const tags = data.data.flatMap((blog: Blog) => blog.tags)
-        setUniqueTags(['All', ...Array.from(new Set(tags as string[]))])
+          // Collect all tags, flatten, deduplicate, and add 'All' option
+          const tags = data.data.flatMap((blog: Blog) => blog.tags) as string[]
+          setUniqueTags(['All', ...Array.from(new Set(tags))])
+        }
+      } catch (error) {
+        console.error('Failed to fetch blogs:', error)
       }
     }
     fetchBlogs()
   }, [])
 
-  const filteredData =
+  const filteredBlogs =
     selectedTag === 'All'
       ? blogs
       : blogs.filter(blog => blog.tags.includes(selectedTag))
@@ -50,17 +55,22 @@ export default function ContentFeed() {
         onSelectTag={setSelectedTag}
       />
 
-      {filteredData.map(blog => (
+      {filteredBlogs.map(blog => (
         <ContentCard
           key={blog._id}
+          id={blog._id}
           image={blog.thumbnail?.asset?.url}
+          video={blog.video}
           date={blog.date || 'Unknown Date'}
           title={blog.title}
           description={blog.description}
-          category={blog.category || 'General'}
-          author={blog.author || 'Unknown'}
-          tags={blog.tags}                               
+          category={
+            typeof blog.category === 'string' ? blog.category : blog.category?.title || 'General'
+          }
+          author={typeof blog.author === 'string' ? blog.author : blog.author?.name || 'Unknown'}
+          tags={blog.tags}
           primaryAction="Read More"
+          onTagClick={setSelectedTag}
         />
       ))}
 

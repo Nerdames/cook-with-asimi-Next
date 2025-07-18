@@ -1,32 +1,33 @@
 import Link from 'next/link'
 import styles from './BlogContentViewer.module.css'
 
+// You may want to add a PortableText renderer if you want to render the `body` content properly
+import { PortableText } from '@portabletext/react'  
+
 interface BlogContentViewerProps {
   title: string
   date: string
-  author: string
+  author: { name: string }
+  category: { title: string }
   description: string
-  videoUrl?: string
-  synopsis: string
-  background: string
-  alternativeTitles: string[]
+  video?: string
+  body: any[]  // Portable Text block content from Sanity
   tags: string[]
-  pictures: { title: string; image: string }[]
-  related: { title: string; link: string }[]
+  thumbnail?: { asset: { url: string } }
+  related?: { title: string; _id: string }[]
 }
 
 export default function BlogContentViewer({
   title,
   date,
   author,
+  category,
   description,
-  videoUrl,
-  synopsis,
-  background,
-  alternativeTitles,
+  video,
+  body,
   tags,
-  pictures,
-  related,
+  thumbnail,
+  related = [],
 }: BlogContentViewerProps) {
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -38,15 +39,19 @@ export default function BlogContentViewer({
     <article className={styles.viewer}>
       <h1 className={styles.title}>{title}</h1>
       <p className={styles.meta}>
-        By <strong>{author}</strong> | {formattedDate}
+        By <strong>{author?.name}</strong> in <em>{category?.title}</em> | {formattedDate}
       </p>
+
+      {thumbnail?.asset?.url && (
+        <img className={styles.thumbnail} src={thumbnail.asset.url} alt={title} />
+      )}
 
       <p className={styles.description}>{description}</p>
 
-      {videoUrl && (
+      {video && (
         <div className={styles.videoSection}>
           <iframe
-            src={videoUrl}
+            src={video}
             title="Video Preview"
             width="100%"
             height="400"
@@ -57,21 +62,10 @@ export default function BlogContentViewer({
       )}
 
       <section className={styles.section}>
-        <h3>Synopsis</h3>
-        <p>{synopsis}</p>
+        <h3>Content</h3>
+        {/* Render Portable Text body content */}
+        <PortableText value={body} />
       </section>
-
-      <section className={styles.section}>
-        <h3>Background</h3>
-        <p>{background}</p>
-      </section>
-
-      {alternativeTitles.length > 0 && (
-        <section className={styles.section}>
-          <h4>Alternative Titles</h4>
-          <p>{alternativeTitles.join(', ')}</p>
-        </section>
-      )}
 
       {tags.length > 0 && (
         <section className={styles.section}>
@@ -84,27 +78,13 @@ export default function BlogContentViewer({
         </section>
       )}
 
-      {pictures.length > 0 && (
-        <section className={styles.section}>
-          <h4>Gallery</h4>
-          <div className={styles.gallery}>
-            {pictures.map((pic, idx) => (
-              <div key={idx} className={styles.pictureItem}>
-                <img src={pic.image} alt={pic.title} />
-                <small>{pic.title}</small>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
       {related.length > 0 && (
         <section className={styles.section}>
           <h4>Related Posts</h4>
           <ul className={styles.relatedList}>
             {related.map((rel, idx) => (
               <li key={idx}>
-                <Link href={rel.link}>{rel.title}</Link>
+                <Link href={`/blogs/${rel._id}`}>{rel.title}</Link>
               </li>
             ))}
           </ul>
