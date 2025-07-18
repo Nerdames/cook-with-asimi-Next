@@ -9,7 +9,6 @@ import styles from './HeroCarousel.module.css'
 interface BlogPost {
   _id: string
   title: string
-  description: string
   thumbnail?: { asset: { url: string } }
 }
 
@@ -24,7 +23,6 @@ export default function HeroCarousel() {
         *[_type == "blog"] | order(date desc)[0...3] {
           _id,
           title,
-          description,
           thumbnail { asset->{ url } }
         }
       `
@@ -67,7 +65,6 @@ export default function HeroCarousel() {
           />
           <div className={styles.postOverlay}>
             <h2>{posts[0]?.title}</h2>
-            <p>{posts[0]?.description}</p>
           </div>
         </div>
 
@@ -80,7 +77,6 @@ export default function HeroCarousel() {
               />
               <div className={styles.postOverlay}>
                 <h3>{post.title}</h3>
-                <p>{post.description}</p>
               </div>
             </div>
           ))}

@@ -63,8 +63,7 @@
   border-radius: 8px;
 }
 
-.post h2, .post p,
-.post h3, .post p {
+.post h2, .post h3 {
   color: var(--text-color);
   user-select: none;
 }
