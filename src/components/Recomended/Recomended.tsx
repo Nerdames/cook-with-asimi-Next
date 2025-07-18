@@ -21,7 +21,7 @@ export default function Recomended() {
   useEffect(() => {
     async function fetchRecommended() {
       const query = groq`
-        *[_type == "blog"] | order(rand()) [0...8] {
+        *[_type == "blog"] | order(date desc)[0...20] {
           _id,
           title,
           tags,
@@ -30,7 +30,8 @@ export default function Recomended() {
       `
       try {
         const data: RecommendedPost[] = await sanityClient.fetch(query)
-        setRecommended(data)
+        const shuffled = data.sort(() => 0.5 - Math.random()).slice(0, 8)
+        setRecommended(shuffled)
       } catch (err) {
         console.error('Failed to fetch recommended posts', err)
       } finally {

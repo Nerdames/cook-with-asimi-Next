@@ -1,31 +1,36 @@
-import React from "react";
+import React from "react"
 import SearchBar from '@/components/SearchBar/SearchBar'
-import styles from "./TagFilter.module.css";
+import SkeletonButton from '@/components/SkeletonButton/SkeletonButton'
+import styles from "./TagFilter.module.css"
 
 interface TagFilterProps {
-  tags: string[];
-  selectedTag: string;
-  onSelectTag: (tag: string) => void;
+  tags: string[]
+  selectedTag: string
+  onSelectTag: (tag: string) => void
+  loading?: boolean  // Add loading prop to control skeleton state
 }
 
-const TagFilter: React.FC<TagFilterProps> = ({ tags = [], selectedTag, onSelectTag }) => {
-  if (!Array.isArray(tags) || tags.length === 0) return null;
-
+const TagFilter: React.FC<TagFilterProps> = ({ tags = [], selectedTag, onSelectTag, loading = false }) => {
   return (
     <div className={styles.tagFilterContainer}>
-
+      
       <div className={styles.filterLeft}>
-        {tags.map((tag) => (
-          <button
-            key={tag}
-            type="button"  // prevents accidental form submits if inside a form
-            className={selectedTag === tag ? styles.active : ""}
-            onClick={() => onSelectTag(tag)}
-            aria-pressed={selectedTag === tag}
-          >
-            {tag}
-          </button>
-        ))}
+        {loading
+          ? Array.from({ length: 5 }).map((_, idx) => (
+              <SkeletonButton key={idx} />
+            ))
+          : tags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                className={selectedTag === tag ? styles.active : ""}
+                onClick={() => onSelectTag(tag)}
+                aria-pressed={selectedTag === tag}
+              >
+                {tag}
+              </button>
+            ))
+        }
       </div>
 
       <div className={styles.filterRight}>
@@ -33,7 +38,7 @@ const TagFilter: React.FC<TagFilterProps> = ({ tags = [], selectedTag, onSelectT
       </div>
 
     </div>
-  );
-};
+  )
+}
 
-export default TagFilter;
+export default TagFilter

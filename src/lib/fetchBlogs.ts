@@ -37,3 +37,19 @@ export async function getBlogById(id: string) {
   `
   return await sanityClient.fetch(query, { id })
 }
+
+// ✅ Fetch recommended/random-like posts
+export async function fetchRecommendedPosts(limit = 8) {
+  const query = groq`
+    *[_type == "blog"] | order(date desc)[0...${limit}]{
+      _id,
+      title,
+      tags,
+      thumbnail{asset->{url}}
+    }
+  `
+  const posts = await sanityClient.fetch(query)
+
+  // Shuffle posts to simulate randomness
+  return posts.sort(() => 0.5 - Math.random())
+}
