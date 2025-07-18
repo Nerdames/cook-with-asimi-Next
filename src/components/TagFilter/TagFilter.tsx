@@ -13,13 +13,15 @@ const TagFilter: React.FC<TagFilterProps> = ({ tags = [], selectedTag, onSelectT
 
   return (
     <div className={styles.tagFilterContainer}>
-      
+
       <div className={styles.filterLeft}>
         {tags.map((tag) => (
           <button
             key={tag}
+            type="button"  // prevents accidental form submits if inside a form
             className={selectedTag === tag ? styles.active : ""}
             onClick={() => onSelectTag(tag)}
+            aria-pressed={selectedTag === tag}
           >
             {tag}
           </button>

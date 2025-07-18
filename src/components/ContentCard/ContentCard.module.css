@@ -6,7 +6,7 @@
   align-items: flex-start;
   cursor: pointer;
   background-color: var(--bg-white-color);
-  height: 400px;
+  height: 460px;
   border-radius: var(--border-radius);
   overflow: hidden;
 }
@@ -25,14 +25,27 @@
   object-fit: cover;
 }
 
+.noPreview {
+  width: 100%;
+  height: 100%;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-style: italic;
+}
+
+
 /* Text content container as grid */
 .contentText {
-    height: 100%;
+  height: 100%;
   flex: 1;
   display: grid;
   grid-template-rows: auto 1fr auto; /* header, description, footer */
-  padding: 20px 40px;
+  padding: 20px 32px; /* Slightly reduced horizontal padding */
   gap: 12px;
+  overflow: hidden; /* hide any overflow inside the card */
 }
 
 /* Header grouping */
@@ -41,27 +54,48 @@
   flex-direction: column;
 }
 
+/* Category */
 .contentCategory {
   font-size: 18px;
   color: var(--primary-color);
   user-select: none;
 }
 
+/* Title clamp to 2 lines */
 .contentTitle {
   font-size: 24px;
   text-align: left;
   user-select: none;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  margin: 0;
 }
 
 .contentTitle a {
   color: var(--text-dark);
   text-decoration: none;
   user-select: none;
+
+  /* inherit clamping */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
 
+/* Meta info */
 .contentMeta {
   color: var(--highlight-color);
   user-select: none;
+  margin-top: 4px;
+  font-size: 0.9rem;
 }
 
 .contentMeta a {
@@ -69,19 +103,66 @@
   user-select: none;
 }
 
-/* Description takes remaining space */
-.contentDescription {
+/* Description clamp to 3 lines */
+.contentDescription p {
   text-align: justify;
   color: var(--text-dark);
   user-select: none;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+  margin: 0;
 }
 
-/* Footer sticks to bottom */
+/* Tags */
+.contentTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  user-select: none;
+}
+
+.contentTags ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+}
+
+.tag {
+  background-color: var(--tag-bg);
+  color: var(--tag-text);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  border: 1px solid var(--tag-border);
+  user-select: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.tag:hover {
+  background-color: var(--tag-bg-hover);
+  color: var(--tag-text-hover);
+  border-color: var(--tag-border-hover);
+  cursor: pointer;
+}
+
+/* Footer sticks at bottom inside the grid cell */
 .contentFooter {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: auto; 
+  /* margin-top: auto; */ /* grid places footer at bottom already */
+  /* Removed fixed positioning to keep footer inside card */
+  padding-top: 8px;
+  border-top: 1px solid var(--highlight-color);
 }
 
 .contentFooter button {
@@ -91,7 +172,9 @@
   border: none;
   font-size: 16px;
   cursor: pointer;
-  border-radius: var(--button-border-radius, 4px);
+  border-radius: var(--button-border-radius);
+  user-select: none;
+  transition: background-color 0.3s ease;
 }
 
 .contentFooter button:hover {
@@ -99,34 +182,22 @@
   color: var(--text-dark);
 }
 
-.contentSocials {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.contentSocials i {
-  cursor: pointer;
-  color: var(--highlight-color);
-}
-
-.contentSocials i:hover {
-  color: var(--primary-color);
-}
-
 /* Responsive: stack vertically */
 @media (max-width: 768px) {
   .contentCard {
     flex-direction: column;
-    height: 100%;
+    height: auto; /* allow natural height */
   }
 
   .contentImage {
     width: 100%;
+    height: 250px; /* fixed height for image on mobile */
   }
 
   .contentText {
     width: 100%;
-    padding: 20px;
+    padding: 16px 20px;
+    height: auto; /* allow natural height */
+    grid-template-rows: auto auto auto auto; /* add extra row if needed */
   }
 }

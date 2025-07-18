@@ -18,7 +18,7 @@
   white-space: nowrap;
   padding: 8px 16px;
   font-size: 14px;
-  border-radius: var(--buttton-border-radius);
+  border-radius: var(--button-border-radius); /* fixed usage */
   border: 1px solid var(--highlight-color);
   background: var(--light-bg);
   color: var(--text-dark);

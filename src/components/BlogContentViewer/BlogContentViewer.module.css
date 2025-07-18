@@ -1,0 +1,79 @@
+.viewer {
+  background: var(--bg-white-color);
+  color: var(--text-dark);
+  padding: 20px;
+  border-radius: var(--border-radius);
+}
+
+.title {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.meta {
+  color: var(--highlight-color);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.videoSection {
+  margin: 20px 0;
+}
+
+.section {
+  margin: 20px 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: var(--tag-bg, #f0f0f0);
+  color: var(--tag-text, #333);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1px solid var(--tag-border, #ccc);
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.pictureItem img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.pictureItem small {
+  display: block;
+  text-align: center;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.relatedList {
+  list-style: none;
+  padding: 0;
+}
+
+.relatedList li a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.relatedList li a:hover {
+  text-decoration: underline;
+}

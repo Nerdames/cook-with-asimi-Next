@@ -7,8 +7,17 @@
   --text-dark:           #000000; /* black */
   --highlight-color:     #636368; /* grey highlight */
   --border-radius:       8px;     /* border radius */
-  --buttton-border-radius: 4px; /* button border radius */
+  --button-border-radius: 4px;    /* button border radius */
+
+  /* New tag colors */
+  --tag-bg:              rgba(218, 165, 32, 0.15);  /* light goldenrod */
+  --tag-bg-hover:        rgba(218, 165, 32, 0.35);  /* stronger goldenrod */
+  --tag-text:            #4a4a4a;                    /* softer dark gray */
+  --tag-text-hover:      var(--text-dark);            /* pure black */
+  --tag-border:          rgba(99, 99, 104, 0.4);     /* light gray border */
+  --tag-border-hover:    rgba(218, 165, 32, 0.6);    /* goldenrod border */
 }
+
 
 /* Reset and Global Styles */
 * {

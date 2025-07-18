@@ -31,7 +31,7 @@ export default function ContentFeed() {
         setBlogs(data.data)
 
         const tags = data.data.flatMap((blog: Blog) => blog.tags)
-        setUniqueTags(['All', ...Array.from(new Set(tags)) as string[]])
+        setUniqueTags(['All', ...Array.from(new Set(tags as string[]))])
       }
     }
     fetchBlogs()
@@ -59,6 +59,7 @@ export default function ContentFeed() {
           description={blog.description}
           category={blog.category || 'General'}
           author={blog.author || 'Unknown'}
+          tags={blog.tags}                               
           primaryAction="Read More"
         />
       ))}
