@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
+import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
 import styles from './HeroCarousel.module.css'
 
 interface BlogPost {
@@ -14,9 +15,11 @@ interface BlogPost {
 
 export default function HeroCarousel() {
   const [posts, setPosts] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     async function fetchPosts() {
+      setLoading(true)
       const query = groq`
         *[_type == "blog"] | order(date desc)[0...3] {
           _id,
@@ -30,13 +33,28 @@ export default function HeroCarousel() {
         setPosts(data)
       } catch (err) {
         console.error('Failed to fetch hero carousel posts', err)
+      } finally {
+        setLoading(false)
       }
     }
 
     fetchPosts()
   }, [])
 
-  if (posts.length === 0) return <p>Loading posts...</p>
+  if (loading) {
+    return (
+      <section className={styles.heroSection}>
+        <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
+        <div className={styles.heroCarouselGrid}>
+          <SkeletonCard />
+          <div className={styles.hotPosts}>
+            <SkeletonCard />
+            <SkeletonCard />
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section className={styles.heroSection}>
@@ -44,12 +62,12 @@ export default function HeroCarousel() {
       <div className={styles.heroCarouselGrid}>
         <div className={`${styles.featuredPost} ${styles.post}`}>
           <img
-            src={posts[0].thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
-            alt={posts[0].title}
+            src={posts[0]?.thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
+            alt={posts[0]?.title || 'Featured Post'}
           />
           <div className={styles.postOverlay}>
-            <h2>{posts[0].title}</h2>
-            <p>{posts[0].description}</p>
+            <h2>{posts[0]?.title}</h2>
+            <p>{posts[0]?.description}</p>
           </div>
         </div>
 
