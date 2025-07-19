@@ -9,7 +9,7 @@
 .title {
   text-align: center;
   margin-bottom: 20px;
-  font-size: clamp(1.25rem, 2.5vw, 2rem); /* Responsive from ~20px to ~32px */
+  font-size: clamp(1rem, 2vw, 1.5rem); /* ~16px to ~24px */
   font-weight: 600;
   color: var(--text-dark);
 }

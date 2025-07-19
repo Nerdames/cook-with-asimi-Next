@@ -58,6 +58,7 @@ p, h1, h2, h3, h4, h5 {
   width: 100%;
   row-gap: 20px;
   padding: 0;
+  background-color: var(--light-bg);
 }
 
 /* Grid Areas */
@@ -79,10 +80,9 @@ aside {
 
 /* Sidebar */
 aside {
-  background: var(--bg-white-color);
+  background: var(--light-bg);
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
-  padding: 1rem;
   transition: all 0.3s ease-in-out;
 }
 

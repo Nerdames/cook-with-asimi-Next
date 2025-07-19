@@ -10,7 +10,6 @@ export default function Home() {
     <main className={styles.homeMain}>
       <ContentFeed />
       <NewsletterSection />
-      <Recomended />
     </main>
   )
 }

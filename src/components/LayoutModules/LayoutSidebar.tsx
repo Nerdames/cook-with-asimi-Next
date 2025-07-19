@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Recomended from './Recomended/Recomended'
-import NewsletterSection from './Newsletter/Newsletter'
+import Newsletter from './Newsletter/Newsletter'
 import RelatedTopics from './RelatedTopics/RelatedTopics'
 
 interface LayoutSidebarProps {
@@ -20,7 +20,7 @@ export default function LayoutSidebar({ modules = [] }: LayoutSidebarProps) {
         transition={{ duration: 0.4 }}
       >
         {modules.includes('recomended') && <Recomended />}
-        {modules.includes('newsletter') && <NewsletterSection />}
+        {modules.includes('newsletter') && <Newsletter />}
         {modules.includes('related') && <RelatedTopics />}
       </motion.div>
     </AnimatePresence>
