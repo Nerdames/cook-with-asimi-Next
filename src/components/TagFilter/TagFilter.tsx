@@ -1,4 +1,6 @@
-import React from "react"
+'use client'
+
+import React, { useEffect, useRef, useCallback } from 'react'
 import SkeletonButton from '@/components/SkeletonButton/SkeletonButton'
 import styles from "./TagFilter.module.css"
 
@@ -15,6 +17,26 @@ const TagFilter: React.FC<TagFilterProps> = ({
   onSelectTag,
   loading = false
 }) => {
+  const selectedTagRef = useRef<HTMLButtonElement | null>(null)
+
+  // Set ref only to the selected button
+  const setTagRef = useCallback(
+    (el: HTMLButtonElement | null, tag: string) => {
+      if (tag === selectedTag) {
+        selectedTagRef.current = el
+      }
+    },
+    [selectedTag]
+  )
+
+  useEffect(() => {
+    selectedTagRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      inline: 'center',
+      block: 'nearest'
+    })
+  }, [selectedTag])
+
   return (
     <div className={styles.tagFilterContainer}>
       {loading
@@ -25,6 +47,7 @@ const TagFilter: React.FC<TagFilterProps> = ({
             <button
               key={tag}
               type="button"
+              ref={(el) => setTagRef(el, tag)}
               className={selectedTag === tag ? styles.active : ""}
               onClick={() => onSelectTag(tag)}
               aria-pressed={selectedTag === tag}
