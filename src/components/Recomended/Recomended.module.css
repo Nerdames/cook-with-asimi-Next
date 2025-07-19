@@ -1,12 +1,15 @@
 .recomendedSection {
   width: 100%;
-  padding: 20px;
+  padding: 20px 16px;
+  margin: 0 auto;
+  max-width: 1200px;
+  box-sizing: border-box;
 }
 
 .title {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.5rem;
+  font-size: clamp(1.25rem, 2.5vw, 2rem); /* Responsive from ~20px to ~32px */
   font-weight: 600;
   color: var(--text-dark);
 }
@@ -15,5 +18,32 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: space-evenly;
+  justify-content: center;
+}
+
+/* Optional: Adjust spacing on smaller screens */
+@media (max-width: 768px) {
+  .figureContainer {
+    gap: 16px;
+  }
+
+  .recomendedSection {
+    padding: 16px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .figureContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .recomendedSection {
+    padding: 12px 10px;
+  }
+
+  .title {
+    font-size: 1.25rem; /* lock smaller title for better readability */
+  }
 }
