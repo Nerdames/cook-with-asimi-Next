@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sanityClient } from '@/lib/sanityClient'
-import { blogsQuery } from '@/lib/queries'
+import { blogsQuery, blogsCountQuery } from '@/lib/queries'
 
 export async function GET(req: NextRequest) {
   try {
@@ -8,38 +8,18 @@ export async function GET(req: NextRequest) {
 
     const page = parseInt(searchParams.get('page') || '1', 10)
     const limit = parseInt(searchParams.get('limit') || '6', 10)
-    const tag = searchParams.get('tag')
+    const tag = searchParams.get('tag') || ''
 
-    // Fetch all blogs
-    const allBlogs = await sanityClient.fetch(blogsQuery)
+    const offset = (page - 1) * limit
 
-    // Optionally filter by tag
-    const filteredBlogs = tag && tag !== 'All'
-      ? allBlogs.filter((blog: any) => blog.tags.includes(tag))
-      : allBlogs
-
-    const total = filteredBlogs.length
-    const startIndex = (page - 1) * limit
-
-    // ❌ If there’s not enough content for this page, don't fetch
-    if (startIndex >= total) {
-      return NextResponse.json({
-        success: true,
-        data: [],
-        total,
-        message: 'No more content for this page'
-      })
-    }
-
-    // ✅ Apply pagination
-    const paginatedBlogs = filteredBlogs.slice(startIndex, startIndex + limit)
+    const blogs = await sanityClient.fetch(blogsQuery(offset, limit, tag))
+    const total = await sanityClient.fetch(blogsCountQuery(tag))
 
     return NextResponse.json({
       success: true,
-      data: paginatedBlogs,
+      data: blogs,
       total
     })
-
   } catch (error) {
     console.error('Failed to fetch blogs:', error)
     return NextResponse.json(

@@ -95,6 +95,7 @@ aside {
   background: var(--light-bg);
   border: 1px solid #ddd;
   transition: all 0.3s ease-in-out;
+  overflow: hidden;
 }
 
 /* Footer */
