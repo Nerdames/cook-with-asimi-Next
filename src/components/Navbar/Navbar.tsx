@@ -3,10 +3,12 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BiMenu, BiX } from 'react-icons/bi'
 import styles from './Navbar.module.css'
 import Logo from '@/components/Logo/Logo'
 import clsx from 'clsx'
+
+// ✅ Import boxicons directly (from installed package)
+import 'boxicons/css/boxicons.min.css'
 
 const navItems = [
   { path: '/', label: 'Home' },
@@ -46,18 +48,17 @@ export default function Navbar() {
       )}
     >
       <div className={styles.navLeft}>
-
         <Logo />
-
       </div>
+
       <div className={clsx(styles.navCenter, isMobileMenuOpen && styles.mobileOpen)}>
-                <ul className={clsx(styles.pages, isMobileMenuOpen && styles.mobileOpen)}>
+        <ul className={clsx(styles.pages, isMobileMenuOpen && styles.mobileOpen)}>
           {navItems.map(({ path, label }) => (
             <li key={path}>
               <Link
                 href={path}
                 className={clsx(pathname === path && styles.active)}
-                onClick={() => setIsMobileMenuOpen(false)} // close menu on selection
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {label}
               </Link>
@@ -72,7 +73,10 @@ export default function Navbar() {
           onClick={toggleMobileMenu}
           aria-label="Toggle Menu"
         >
-          {isMobileMenuOpen ? <BiX size={24} /> : <BiMenu size={24} />}
+          <i
+            className={`bx ${isMobileMenuOpen ? 'bx-x' : 'bx-menu'}`}
+            style={{ fontSize: '24px' }}
+          ></i>
         </button>
       </div>
     </div>
