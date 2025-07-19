@@ -7,7 +7,7 @@ import styles from './Navbar.module.css'
 import Logo from '@/components/Logo/Logo'
 import clsx from 'clsx'
 
-// ✅ Import Boxicons CSS
+// ✅ Boxicons CSS for icons
 import 'boxicons/css/boxicons.min.css'
 
 const navItems = [
@@ -19,12 +19,15 @@ const navItems = [
 
 export default function Navbar() {
   const pathname = usePathname()
+  const [isMounted, setIsMounted] = useState(false)
   const [isFixed, setIsFixed] = useState(false)
   const [showNavbar, setShowNavbar] = useState(true)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const lastScrollY = useRef(0)
 
   useEffect(() => {
+    setIsMounted(true) // Hydration-safe mounting check
+
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       setIsFixed(currentScrollY > 150)
@@ -57,7 +60,8 @@ export default function Navbar() {
               <Link
                 href={path}
                 className={clsx(
-                  pathname === path && 'active' // Use global .active class in CSS
+                  styles.link,
+                  isMounted && pathname === path && styles.active
                 )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
@@ -73,11 +77,12 @@ export default function Navbar() {
           className={styles.mobileToggle}
           onClick={toggleMobileMenu}
           aria-label="Toggle Menu"
+          aria-expanded={isMobileMenuOpen}
         >
           <i
             className={`bx ${isMobileMenuOpen ? 'bx-x' : 'bx-menu'}`}
             style={{ fontSize: '24px' }}
-          ></i>
+          />
         </button>
       </div>
     </div>

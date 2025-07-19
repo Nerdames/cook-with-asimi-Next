@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import styles from './BlogContentViewer.module.css'
+// Add this at the top
+import type { PortableTextBlock } from '@portabletext/types'
+
 
 // You may want to add a PortableText renderer if you want to render the `body` content properly
 import { PortableText } from '@portabletext/react'  
@@ -11,7 +14,7 @@ interface BlogContentViewerProps {
   category: { title: string }
   description: string
   video?: string
-  body: any[]  // Portable Text block content from Sanity
+  body: PortableTextBlock[]  // Portable Text block content from Sanity
   tags: string[]
   thumbnail?: { asset: { url: string } }
   related?: { title: string; _id: string }[]
