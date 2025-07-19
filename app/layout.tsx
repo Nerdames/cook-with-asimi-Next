@@ -1,9 +1,8 @@
 import './globals.css'
 import Navbar from '@/components/Navbar/Navbar'
-import Logo from '@/components/Logo/Logo'
-import Recomended from '@/components/Recomended/Recomended'
 import Footer from '@/components/Footer/Footer'
 import ScrollToTop from '@/components/ScrollToTop/ScrollToTop'
+import Recomended from '@/components/Recomended/Recomended'
 import 'boxicons/css/boxicons.min.css'
 
 export const metadata = {
@@ -25,12 +24,18 @@ export default function RootLayout({
           </nav>
 
           <header>
-            
+            {/* Optional header content */}
           </header>
 
-          {children}
+          <main>
+            {children}
+          </main>
 
-          <ScrollToTop />   {/* <-- Add here */}
+          <aside>
+            <Recomended />
+          </aside>
+
+          <ScrollToTop />
 
           <footer>
             <Footer />

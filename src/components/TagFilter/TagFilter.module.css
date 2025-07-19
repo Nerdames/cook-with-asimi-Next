@@ -3,30 +3,39 @@
   justify-content: space-between;
   align-items: center;
   gap: 20px;
-  margin: 0 20px;
-  flex-wrap: wrap;
+  margin: 20px auto;
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .filterLeft {
   display: flex;
-  flex-wrap: wrap;
   gap: 0.5rem;
-  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1 1 auto;
+  max-width: calc(100% - 220px); /* Dynamically restrict width, adjust based on filterRight width + gap */
+}
+
+.filterLeft::-webkit-scrollbar {
+  display: none;
 }
 
 .filterLeft button {
+  flex: 0 0 auto;
   white-space: nowrap;
   padding: 8px 16px;
   font-size: 14px;
-  border-radius: var(--button-border-radius); /* fixed usage */
+  border-radius: var(--button-border-radius);
   border: 1px solid var(--highlight-color);
   background: var(--light-bg);
   color: var(--text-dark);
-  outline: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  font-weight: normal;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s, transform 0.2s;
 }
 
 .filterLeft button:hover {
@@ -42,30 +51,22 @@
   border-color: var(--primary-color);
 }
 
-/* Right side */
 .filterRight {
   flex-shrink: 0;
+  width: 200px; /* Make sure this matches max-width calc deduction */
 }
 
 @media (max-width: 768px) {
+  .tagFilterContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .filterLeft {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
+    max-width: 100%;
+    width: 100%;
   }
 
-  .filterLeft::-webkit-scrollbar {
-    display: none;
-  }
-
-  .filterLeft button {
-    flex: 0 0 auto;
-    font-size: 13px;
-    padding: 8px 12px;
-  }
-
-  /* Hide filterRight on mobile */
   .filterRight {
     display: none;
   }
