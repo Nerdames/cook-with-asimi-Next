@@ -1,11 +1,8 @@
 import BlogContentViewer from '@/components/BlogContentViewer/BlogContentViewer'
 import { getBlogById } from '@/lib/fetchBlogs'
 
-interface PageProps {
-  params: { id: string }
-}
-
-export default async function BlogPage({ params }: PageProps) {
+// ✅ Inline the expected structure
+export default async function BlogPage({ params }: { params: { id: string } }) {
   const blog = await getBlogById(params.id)
 
   if (!blog) {
