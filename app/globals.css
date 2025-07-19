@@ -1,31 +1,32 @@
 :root {
-  --primary-color:       #DAA520; /* goldenrod */
-  --bg-black-color:      #000000; /* black */
-  --light-bg:            rgba(248, 248, 248, 0.785);
-  --bg-white-color:      #FFFFFF; /* white */
-  --text-color:          #FFFFFF; /* white */
-  --text-dark:           #000000; /* black */
-  --highlight-color:     #636368; /* grey highlight */
-  --border-radius:       8px;     /* border radius */
-  --button-border-radius: 4px;    /* button border radius */
+  --primary-color:         #DAA520;
+  --bg-black-color:        #000000;
+  --light-bg:              rgba(248, 248, 248, 0.785);
+  --bg-white-color:        #FFFFFF;
+  --text-color:            #FFFFFF;
+  --text-dark:             #000000;
+  --highlight-color:       #636368;
+  --border-radius:         8px;
+  --button-border-radius:  4px;
 
-  /* New tag colors */
-  --tag-bg:              rgba(218, 165, 32, 0.15);  /* light goldenrod */
-  --tag-bg-hover:        rgba(218, 165, 32, 0.35);  /* stronger goldenrod */
-  --tag-text:            #4a4a4a;                   /* softer dark gray */
-  --tag-text-hover:      var(--text-dark);          /* pure black */
-  --tag-border:          rgba(99, 99, 104, 0.4);    /* light gray border */
-  --tag-border-hover:    rgba(218, 165, 32, 0.6);   /* goldenrod border */
+  /* Tag Styling */
+  --tag-bg:                rgba(218, 165, 32, 0.15);
+  --tag-bg-hover:          rgba(218, 165, 32, 0.35);
+  --tag-text:              #4a4a4a;
+  --tag-text-hover:        var(--text-dark);
+  --tag-border:            rgba(99, 99, 104, 0.4);
+  --tag-border-hover:      rgba(218, 165, 32, 0.6);
 }
 
+/* Reset + Base */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'Times New Roman', Times, serif;
+  list-style: none;
   scrollbar-width: thin;
   scroll-behavior: smooth;
-  list-style: none;
 }
 
 body {
@@ -40,16 +41,15 @@ a {
 }
 
 p, h1, h2, h3, h4, h5 {
-  line-height: 40px;
+  line-height: 1.6;
   font-size: 16px;
   color: var(--text-dark);
 }
 
-/* Layout Grid with Aside */
+/* Layout Grid */
 .container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 60px auto auto auto;
   grid-template-areas:
     "nav nav nav nav"
     "header header header header"
@@ -60,42 +60,40 @@ p, h1, h2, h3, h4, h5 {
   padding: 0;
 }
 
-nav {
-  grid-area: nav;
-  display: flex;
-  flex-direction: column;
-}
+/* Grid Areas */
+nav       { grid-area: nav; }
+header    { grid-area: header; }
+main      { grid-area: main; }
+aside     { grid-area: aside; }
+footer    { grid-area: footer; }
 
-header {
-  grid-area: header;
-  display: flex;
-  flex-direction: column;
-}
-
-main {
-  grid-area: main;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-
+/* Area Styling */
+nav,
+header,
+main,
+footer,
 aside {
-  grid-area: aside;
   display: flex;
   flex-direction: column;
+}
+
+/* Sidebar */
+aside {
   background: var(--bg-white-color);
   border: 1px solid #ddd;
   border-radius: var(--border-radius);
+  padding: 1rem;
+  transition: all 0.3s ease-in-out;
 }
 
+/* Footer */
 footer {
-  grid-area: footer;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--highlight-color);
+  background-color: var(--bg-black-color);
   color: var(--text-color);
+  padding: 1rem;
 }
 
+/* Buttons */
 button {
   border: none;
   border-radius: var(--button-border-radius);
@@ -110,6 +108,7 @@ button:hover {
   background-color: darkgoldenrod;
 }
 
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -123,7 +122,9 @@ button:hover {
   background: var(--light-bg);
 }
 
-.headerTopic, .headerTopic span {
+/* Header Topic */
+.headerTopic,
+.headerTopic span {
   display: flex;
   align-items: center;
   margin: 10px;
@@ -131,14 +132,13 @@ button:hover {
 
 .headerTopic h1 {
   font-size: 50px;
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
-/* Responsive: Move Aside Below Main */
-@media only screen and (max-width: 900px) {
+/* Responsive Adjustments */
+@media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto auto;
     grid-template-areas:
       "nav"
       "header"
