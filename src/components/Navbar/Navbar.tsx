@@ -7,7 +7,7 @@ import styles from './Navbar.module.css'
 import Logo from '@/components/Logo/Logo'
 import clsx from 'clsx'
 
-// ✅ Import boxicons directly (from installed package)
+// ✅ Import Boxicons CSS
 import 'boxicons/css/boxicons.min.css'
 
 const navItems = [
@@ -27,7 +27,6 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
-
       setIsFixed(currentScrollY > 150)
       setShowNavbar(currentScrollY < lastScrollY.current || currentScrollY < 50)
       lastScrollY.current = currentScrollY
@@ -57,7 +56,9 @@ export default function Navbar() {
             <li key={path}>
               <Link
                 href={path}
-                className={clsx(pathname === path && styles.active)}
+                className={clsx(
+                  pathname === path && 'active' // Use global .active class in CSS
+                )}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {label}

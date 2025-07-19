@@ -28,7 +28,7 @@ const SidebarToggleButton: React.FC<SidebarToggleButtonProps> = ({ isOpen, onOpe
           onKeyDown={(e) => handleKeyPress(e, onOpen)}
           aria-label="Open sidebar"
         >
-          <i className='bx bx-menu' style={{ fontSize: '24px' }}></i>
+          <i className={`bx bx-menu ${styles.icon}`}></i>
         </div>
       ) : (
         <div
@@ -39,7 +39,7 @@ const SidebarToggleButton: React.FC<SidebarToggleButtonProps> = ({ isOpen, onOpe
           onKeyDown={(e) => handleKeyPress(e, onClose)}
           aria-label="Close sidebar"
         >
-          <i className='bx bx-x' style={{ fontSize: '24px' }}></i>
+          <i className={`bx bx-x ${styles.icon}`}></i>
         </div>
       )}
     </div>

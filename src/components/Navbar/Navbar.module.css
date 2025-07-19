@@ -4,14 +4,14 @@
   align-items: center;
   background-color: var(--bg-black-color);
   padding: 0 10px;
-  z-index: 1000;
+  z-index: 1100;
   transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s ease-in-out;
   width: 100%;
   height: 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   border-radius: 0 0 4px 4px;
   margin: 0;
-
+  transform: translateY(0);
 }
 
 .sticky {
@@ -44,9 +44,8 @@
   justify-content: flex-start;
   align-items: center;
   flex: 1;
-  margin-left: 40px;  /* adds space between logo and nav items */
+  margin-left: 40px;
 }
-
 
 .pages {
   display: flex;
@@ -71,7 +70,8 @@
 }
 
 .pages li a:hover,
-.pages li a.active {
+.pages li a.active,
+.active {
   color: var(--primary-color);
   fill: var(--primary-color);
 }
@@ -79,27 +79,28 @@
 .mobileToggle {
   display: none;
   background: none;
-  border: none;
+    border-radius: 40px;
   color: var(--text-color);
   cursor: pointer;
+  z-index: 1200;
 }
 
 @media (max-width: 600px) {
   .pages {
     flex-direction: column;
-    position: fixed;      /* full screen overlay */
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
     background-color: var(--bg-black-color);
-    justify-content: center;   /* vertical centering */
-    align-items: center;       /* horizontal centering */
+    justify-content: center;
+    align-items: center;
     row-gap: 24px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out, padding 0.3s ease-out;
-    z-index: 999;
+    z-index: 1000;
     padding: 0;
   }
 
@@ -110,7 +111,10 @@
 
   .mobileToggle {
     display: flex;
-    z-index: 1001;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
   }
 
   .pages li a {

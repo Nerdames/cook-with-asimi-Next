@@ -1,13 +1,19 @@
-/* SidebarToggleButton.module.css */
+/* Wrapper (optional for layout positioning if needed) */
+.sidebar-toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* ===== BASE STYLES ===== */
 .showsidebar {
-  display: none; /* Hidden by default (for larger screens) */
+  display: none; /* Hidden by default (shown only on small screens) */
   justify-content: center;
   align-items: center;
-  margin-bottom: 10px;
+  background-color: var(--bg-black-color);
   color: var(--text-color);
-  border-radius: 30px;
+  border: 1px solid var(--highlight-color);
+  border-radius: 50%;
   cursor: pointer;
   user-select: none;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -15,15 +21,20 @@
 
 .showsidebar:hover {
   color: var(--primary-color);
+  background-color: var(--highlight-color);
+}
+
+/* ===== ICON STYLING (replaces inline styles) ===== */
+.icon {
+  font-size: 20px;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 750px) {
   .showsidebar {
     display: flex;
-    width: 40px;
-    height: 40px;
-    padding: 8px;
+    width: 30px;
+    height: 30px;
   }
 }
 
@@ -31,7 +42,10 @@
   .showsidebar {
     width: 36px;
     height: 36px;
-    padding: 6px;
+  }
+
+  .icon {
+    font-size: 18px;
   }
 }
 
@@ -39,6 +53,11 @@
   .showsidebar {
     width: 32px;
     height: 32px;
-    padding: 4px;
+  }
+
+  .icon {
+    font-size: 16px;
   }
 }
+
+
