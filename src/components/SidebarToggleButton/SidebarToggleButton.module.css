@@ -1,11 +1,10 @@
 /* SidebarToggleButton.module.css */
 
-/* Default: hide on larger screens */
+/* ===== BASE STYLES ===== */
 .showsidebar {
-  display: none;
+  display: none; /* Hidden by default (for larger screens) */
   justify-content: center;
   align-items: center;
-  padding: 4px;
   margin-bottom: 10px;
   color: var(--text-color);
   border-radius: 30px;
@@ -18,9 +17,7 @@
   color: var(--primary-color);
 }
 
-/* === MEDIA QUERIES === */
-
-/* Match visibility with header-center and header-right */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 750px) {
   .showsidebar {
     display: flex;

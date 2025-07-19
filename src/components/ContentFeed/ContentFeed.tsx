@@ -64,7 +64,7 @@ export default function ContentFeed() {
 
   const handleTagSelect = (tag: string) => {
     setSelectedTag(tag)
-    setCurrentPage(1)
+    setCurrentPage(1) // Reset to first page when a new tag is selected
   }
 
   return (
@@ -76,9 +76,11 @@ export default function ContentFeed() {
       />
 
       {loading ? (
-        Array.from({ length: blogsPerPage }).map((_, i) => <SkeletonCard key={i} />)
+        Array.from({ length: blogsPerPage }).map((_, i) => (
+          <SkeletonCard key={i} />
+        ))
       ) : (
-        blogs.map(blog => (
+        blogs.map((blog) => (
           <ContentCard
             key={blog._id}
             id={blog._id}
@@ -108,7 +110,7 @@ export default function ContentFeed() {
         <Pager
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={(page: number) => setCurrentPage(page)}
+          onPageChange={setCurrentPage}
         />
       )}
     </section>

@@ -1,24 +1,24 @@
 :root {
-  --primary-color:         #DAA520;
-  --bg-black-color:        #000000;
-  --light-bg:              rgba(248, 248, 248, 0.785);
-  --bg-white-color:        #FFFFFF;
-  --text-color:            #FFFFFF;
-  --text-dark:             #000000;
-  --highlight-color:       #636368;
-  --border-radius:         8px;
-  --button-border-radius:  4px;
+  --primary-color:          #DAA520;
+  --bg-black-color:         #000000;
+  --light-bg:               rgba(248, 248, 248, 0.785);
+  --bg-white-color:         #FFFFFF;
+  --text-color:             #FFFFFF;
+  --text-dark:              #000000;
+  --highlight-color:        #636368;
+  --border-radius:          8px;
+  --button-border-radius:   4px;
 
   /* Tag Styling */
-  --tag-bg:                rgba(218, 165, 32, 0.15);
-  --tag-bg-hover:          rgba(218, 165, 32, 0.35);
-  --tag-text:              #4a4a4a;
-  --tag-text-hover:        var(--text-dark);
-  --tag-border:            rgba(99, 99, 104, 0.4);
-  --tag-border-hover:      rgba(218, 165, 32, 0.6);
+  --tag-bg:                 rgba(218, 165, 32, 0.15);
+  --tag-bg-hover:           rgba(218, 165, 32, 0.35);
+  --tag-text:               #4a4a4a;
+  --tag-text-hover:         var(--text-dark);
+  --tag-border:             rgba(99, 99, 104, 0.4);
+  --tag-border-hover:       rgba(218, 165, 32, 0.6);
 }
 
-/* Reset + Base */
+/* ========== Reset + Base ========== */
 * {
   margin: 0;
   padding: 0;
@@ -29,7 +29,13 @@
   scroll-behavior: smooth;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
+  display: flex;
+  flex-direction: column;
   overflow-x: hidden;
   background-color: var(--light-bg);
   color: var(--text-dark);
@@ -46,7 +52,7 @@ p, h1, h2, h3, h4, h5 {
   color: var(--text-dark);
 }
 
-/* Layout Grid */
+/* ========== Layout Grid ========== */
 .container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -56,22 +62,28 @@ p, h1, h2, h3, h4, h5 {
     "main main main aside"
     "footer footer footer footer";
   width: 100%;
-  row-gap: 20px;
   padding: 0;
   background-color: var(--light-bg);
+  flex: 1;
 }
 
 /* Grid Areas */
 nav       { grid-area: nav; }
 header    { grid-area: header; }
-main      { grid-area: main; }
+main      {
+  grid-area: main;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100%;
+  overflow: hidden;
+}
 aside     { grid-area: aside; }
 footer    { grid-area: footer; }
 
-/* Area Styling */
+/* ========== Area Styling ========== */
 nav,
 header,
-main,
 footer,
 aside {
   display: flex;
@@ -82,7 +94,6 @@ aside {
 aside {
   background: var(--light-bg);
   border: 1px solid #ddd;
-  border-radius: var(--border-radius);
   transition: all 0.3s ease-in-out;
 }
 
@@ -93,7 +104,7 @@ footer {
   padding: 1rem;
 }
 
-/* Buttons */
+/* ========== Buttons ========== */
 button {
   border: none;
   border-radius: var(--button-border-radius);
@@ -108,7 +119,7 @@ button:hover {
   background-color: darkgoldenrod;
 }
 
-/* Scrollbar */
+/* ========== Scrollbar ========== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -122,7 +133,7 @@ button:hover {
   background: var(--light-bg);
 }
 
-/* Header Topic */
+/* ========== Header Topic ========== */
 .headerTopic,
 .headerTopic span {
   display: flex;
@@ -135,7 +146,7 @@ button:hover {
   white-space: nowrap;
 }
 
-/* Responsive Adjustments */
+/* ========== Responsive Adjustments ========== */
 @media (max-width: 900px) {
   .container {
     grid-template-columns: 1fr;
@@ -145,7 +156,6 @@ button:hover {
       "main"
       "aside"
       "footer";
-    row-gap: 12px;
     padding: 0 1rem;
   }
 

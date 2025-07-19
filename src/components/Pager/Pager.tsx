@@ -1,3 +1,5 @@
+'use client'
+
 import styles from './Pager.module.css'
 import 'boxicons/css/boxicons.min.css'
 
@@ -26,12 +28,22 @@ const Pager: React.FC<PagerProps> = ({
     return range
   }
 
+  const handlePageClick = (page: number) => {
+    if (page !== currentPage) {
+      onPageChange(page)
+      // Smooth scroll to top after changing page
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+  }
+
   return (
     <div className={styles.pager}>
       {currentPage > 1 && (
         <button
           className={styles['pager-item']}
-          onClick={() => onPageChange(currentPage - 1)}
+          onClick={() => handlePageClick(currentPage - 1)}
         >
           <i className="bx bx-left-arrow-alt" />
           Prev
@@ -44,7 +56,7 @@ const Pager: React.FC<PagerProps> = ({
           className={`${styles['pager-item']} ${
             currentPage === page ? styles.active : ''
           }`}
-          onClick={() => onPageChange(page)}
+          onClick={() => handlePageClick(page)}
         >
           {page}
         </button>
@@ -53,7 +65,7 @@ const Pager: React.FC<PagerProps> = ({
       {currentPage < totalPages && (
         <button
           className={styles['pager-item']}
-          onClick={() => onPageChange(currentPage + 1)}
+          onClick={() => handlePageClick(currentPage + 1)}
         >
           Next
           <i className="bx bx-right-arrow-alt" />

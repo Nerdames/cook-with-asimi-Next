@@ -2,6 +2,7 @@
   box-sizing: border-box;
   width: 100%;
   position: relative;
+  margin: 40px 0;
 }
 
 .heroTitle {
@@ -90,6 +91,10 @@
 }
 
 @media (max-width: 1024px) {
+
+  .heroSection {
+    margin: 20px 0;
+  }
   .heroTitle {
     font-size: 1.2rem;
   }
