@@ -1,29 +1,30 @@
-import { getBlogById } from '@/lib/fetchBlogs'
-import { BlogContentViewer } from '@/components'
-import { Metadata } from 'next'
+import { getBlogById } from '@/lib/fetchBlogs';
+import { BlogContentViewer } from '@/components';
+import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic'
+export const dynamic = 'force-dynamic';
 
-interface Params {
-  id: string
-}
-
-interface PageProps {
-  params: Params
-}
+type PageProps = {
+  params: {
+    id: string;
+  };
+};
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const blog = await getBlogById(params.id);
+
   return {
-    title: `Blog: ${params.id}`,
-  }
+    title: blog?.title ? blog.title : `Blog: ${params.id}`,
+    description: blog?.excerpt ?? 'Read this blog on Cook with Asimi',
+  };
 }
 
 export default async function BlogPage({ params }: PageProps) {
-  const blog = await getBlogById(params.id)
+  const blog = await getBlogById(params.id);
 
   if (!blog) {
-    return <div>Blog not found</div>
+    return <div>Blog not found</div>;
   }
 
-  return <BlogContentViewer {...blog} />
+  return <BlogContentViewer {...blog} />;
 }

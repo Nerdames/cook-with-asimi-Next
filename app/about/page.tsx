@@ -20,7 +20,7 @@ export default function AboutPage() {
           priority
         />
         <div className={styles.heroText}>
-          <h1>Hi, I'm Asimi 👩‍🍳</h1>
+          <h1>Hi, I&apos;m Asimi 👩‍🍳</h1>
           <p>Home cook. Recipe developer. Food storyteller.</p>
         </div>
       </section>
