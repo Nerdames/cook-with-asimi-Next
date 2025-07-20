@@ -6,8 +6,6 @@ import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.css'
 import Logo from '@/components/Logo/Logo'
 import clsx from 'clsx'
-
-// ✅ Boxicons CSS for icons
 import 'boxicons/css/boxicons.min.css'
 
 const navItems = [
@@ -26,7 +24,7 @@ export default function Navbar() {
   const lastScrollY = useRef(0)
 
   useEffect(() => {
-    setIsMounted(true) // Hydration-safe mounting check
+    setIsMounted(true)
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY
@@ -40,6 +38,12 @@ export default function Navbar() {
   }, [])
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(prev => !prev)
+
+  const isActive = (path: string) => {
+    if (!isMounted) return false
+    if (path === '/') return pathname === '/'
+    return pathname.startsWith(path)
+  }
 
   return (
     <div
@@ -59,10 +63,7 @@ export default function Navbar() {
             <li key={path}>
               <Link
                 href={path}
-                className={clsx(
-                  styles.link,
-                  isMounted && pathname === path && styles.active
-                )}
+                className={clsx(styles.link, isActive(path) && styles.active)}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {label}

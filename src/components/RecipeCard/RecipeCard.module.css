@@ -1,0 +1,137 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 300px;
+  max-width: 260px;
+  margin: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.imageWrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  transition: transform 0.5s ease;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eee;
+  height: 100%;
+  color: #555;
+  font-size: 1rem;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  border-radius: 4px;
+  text-align: center;
+  transition: background 0.4s ease;
+}
+
+.overlay p {
+  color: var(--text-color, #fff);
+  font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.imageContainer:hover .image {
+  transform: scale(1.05);
+}
+
+.imageContainer:hover .overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.tag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: var(--highlight-color, #636368);
+  color: var(--text-color, #fff);
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+.meta {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-dark, #000);
+}
+
+.time {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .imageContainer {
+    aspect-ratio: 4 / 5;
+  }
+
+  .tag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageContainer {
+    aspect-ratio: 9 / 16;
+  }
+
+  .overlay {
+    padding: 8px;
+  }
+
+  .overlay p {
+    font-size: 0.9rem;
+  }
+}

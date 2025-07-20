@@ -32,3 +32,27 @@ export const blogsCountQuery = (tag?: string) => {
 
   return `count(*[_type == "blog" ${tagFilter}])`
 }
+
+
+// src/sanity/queries/recipe.ts
+import { groq } from 'next-sanity'
+import { sanityClient } from './sanityClient'
+
+export async function getRecipes() {
+  const query = groq`
+    *[_type == "recipe"] | order(_createdAt desc){
+      _id,
+      title,
+      description,
+      slug,
+      mainImage {
+        asset -> {
+          url
+        }
+      },
+      cookingTime,
+      categories[]->{title}
+    }
+  `
+  return await sanityClient.fetch(query)
+}
