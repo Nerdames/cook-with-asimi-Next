@@ -16,6 +16,22 @@ interface BlogContentViewerProps {
   related?: { title: string; _id: string }[]
 }
 
+// Helper to convert YouTube URL to embed URL
+function getEmbedUrl(videoUrl: string): string {
+  try {
+    const url = new URL(videoUrl)
+    if (url.hostname.includes('youtube.com') && url.searchParams.get('v')) {
+      return `https://www.youtube.com/embed/${url.searchParams.get('v')}`
+    }
+    if (url.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed/${url.pathname.slice(1)}`
+    }
+    return videoUrl // Return as is if not a YouTube link
+  } catch {
+    return videoUrl
+  }
+}
+
 export default function BlogContentViewer({
   title,
   date,
@@ -50,7 +66,7 @@ export default function BlogContentViewer({
       {video && (
         <div className={styles.videoSection}>
           <iframe
-            src={video}
+            src={getEmbedUrl(video)}
             title="Video Preview"
             width="100%"
             height="400"

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import styles from './ContentCard.module.css'
 
 interface ContentCardProps {
@@ -38,7 +39,13 @@ export default function ContentCard({
     <article className={styles.contentCard}>
       <div className={styles.contentImage}>
         {image ? (
-          <img src={image} alt={title} />
+          <Image
+            src={image}
+            alt={title}
+            width={800}
+            height={500}
+            className={styles.image} // Make sure your CSS handles `object-fit`, `border-radius`, etc.
+          />
         ) : video ? (
           <iframe
             src={video}
@@ -63,7 +70,9 @@ export default function ContentCard({
           </h5>
 
           <p className={styles.contentMeta}>
-            <small>By <span>{author}</span> on <span>{formattedDate}</span></small>
+            <small>
+              By <span>{author}</span> on <span>{formattedDate}</span>
+            </small>
           </p>
         </div>
 
