@@ -2,17 +2,25 @@
 
 import { getBlogById } from '@/lib/fetchBlogs'
 import BlogContentViewer from '@/components/BlogContentViewer/BlogContentViewer'
+import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
-// ✅ Correct type for `params` — as expected by Next.js
-interface BlogPageProps {
-  params: {
-    id: string
+interface Params {
+  id: string
+}
+
+interface PageProps {
+  params: Params
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  return {
+    title: `Blog: ${params.id}`,
   }
 }
 
-export default async function BlogPage({ params }: BlogPageProps) {
+export default async function BlogPage({ params }: PageProps) {
   const blog = await getBlogById(params.id)
 
   if (!blog) {
