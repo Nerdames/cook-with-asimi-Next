@@ -3,7 +3,7 @@ import styles from './AboutPage.module.css'
 
 export const metadata = {
   title: 'About | Cook with Asimi',
-  description: 'Get to know the creator of Cook with Asimi – a recipe and food storytelling platform.',
+  description: 'Get to know the creator of Cook with Asimi: a recipe and food storytelling platform.',
 }
 
 export default function AboutPage() {
@@ -38,9 +38,9 @@ export default function AboutPage() {
         <div className={styles.bio}>
           <h2>About Me</h2>
           <p>
-            I’m Asimi, and food is my creative playground. I started this platform to help people
+            I&apos;m Asimi, and food is my creative playground. I started this platform to help people
             find joy in cooking simple, soulful dishes from around the world. From spicy stews to
-            quick snacks, I’m here to share recipes, techniques, and a love for storytelling through food.
+            quick snacks, I&apos;m here to share recipes, techniques, and a love for storytelling through food.
           </p>
         </div>
       </section>
@@ -59,7 +59,7 @@ export default function AboutPage() {
 
       {/* Contact / Socials */}
       <section className={styles.contact}>
-        <h2>Let’s Connect</h2>
+        <h2>Let&apos;s Connect</h2>
         <p>
           Have a recipe idea, collab request, or just want to say hi? Reach out!
         </p>

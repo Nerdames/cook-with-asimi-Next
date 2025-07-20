@@ -1,7 +1,11 @@
+// app/recipes/[id]/page.tsx
+
 import { getRecipeById } from '@/lib/fetchRecipes'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import styles from './RecipePage.module.css'
+import type { RecipeCategory } from '@/lib/types/recipe'
+
 
 export default async function RecipePage({ params }: { params: { id: string } }) {
   const recipe = await getRecipeById(params.id)
@@ -34,7 +38,7 @@ export default async function RecipePage({ params }: { params: { id: string } })
 
       {recipe.categories?.length > 0 && (
         <div className={styles.categories}>
-          {recipe.categories.map((cat: any) => (
+          {recipe.categories.map((cat: RecipeCategory) => (
             <span key={cat._id} className={styles.tag}>{cat.title}</span>
           ))}
         </div>

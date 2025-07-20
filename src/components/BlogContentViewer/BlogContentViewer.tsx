@@ -1,11 +1,7 @@
 import Link from 'next/link'
-import styles from './BlogContentViewer.module.css'
-// Add this at the top
+import { PortableText } from '@portabletext/react'
 import type { PortableTextBlock } from '@portabletext/types'
-
-
-// You may want to add a PortableText renderer if you want to render the `body` content properly
-import { PortableText } from '@portabletext/react'  
+import styles from './BlogContentViewer.module.css'
 
 interface BlogContentViewerProps {
   title: string
@@ -14,7 +10,7 @@ interface BlogContentViewerProps {
   category: { title: string }
   description: string
   video?: string
-  body: PortableTextBlock[]  // Portable Text block content from Sanity
+  body: PortableTextBlock[]
   tags: string[]
   thumbnail?: { asset: { url: string } }
   related?: { title: string; _id: string }[]
@@ -66,7 +62,6 @@ export default function BlogContentViewer({
 
       <section className={styles.section}>
         <h3>Content</h3>
-        {/* Render Portable Text body content */}
         <PortableText value={body} />
       </section>
 
