@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import LayoutSidebar from './LayoutSidebar'
+import LayoutSidebar from '@/LayoutModules/LayoutSidebar';
 
 interface PageLayoutProps {
-  children: React.ReactNode
-  modules?: Array<'recomended' | 'newsletter' | 'related'>
+  children: React.ReactNode;
+  modules?: Array<'recomended' | 'newsletter' | 'related'>;
 }
 
 export default function PageLayout({ children, modules = [] }: PageLayoutProps) {
@@ -15,5 +15,5 @@ export default function PageLayout({ children, modules = [] }: PageLayoutProps) 
         <LayoutSidebar modules={modules} />
       </aside>
     </div>
-  )
+  );
 }

@@ -1,6 +1,8 @@
-import styles from './SkeletonCard.module.css'
+// SkeletonCard.tsx
+import React from 'react';
+import styles from './SkeletonCard.module.css';
 
-export default function SkeletonCard() {
+const SkeletonCard: React.FC = () => {
   return (
     <article className={styles.skeletonCard}>
       <div className={styles.imageSkeleton} />
@@ -28,5 +30,7 @@ export default function SkeletonCard() {
         </div>
       </div>
     </article>
-  )
-}
+  );
+};
+
+export default SkeletonCard;

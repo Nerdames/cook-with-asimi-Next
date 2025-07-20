@@ -1,6 +1,6 @@
-import FooterCategories from '@/components/Footer/FooterCategories'
-import FooterPages from '@/components/Footer/FooterPages'
-import FooterSocials from '@/components/Footer/FooterSocials'
+import FooterCategories from './FooterCategories'
+import FooterPages from './FooterPages'
+import FooterSocials from './FooterSocials'
 import styles from './Footer.module.css'
 
 export default function Footer() {

@@ -1,8 +1,25 @@
-import React from 'react'
-import styles from './SkeletonButton.module.css'
+import React from 'react';
+import styles from './SkeletonButton.module.css';
 
-const SkeletonButton = () => {
-  return <div className={styles.skeletonButton} />
+interface SkeletonButtonProps {
+  width?: string;
+  height?: string;
+  borderRadius?: string;
+  className?: string;
 }
 
-export default SkeletonButton
+const SkeletonButton: React.FC<SkeletonButtonProps> = ({
+  width = '120px',
+  height = '40px',
+  borderRadius = 'var(--button-border-radius)',
+  className = '',
+}) => {
+  return (
+    <div
+      className={`${styles.skeletonButton} ${className}`}
+      style={{ width, height, borderRadius }}
+    />
+  );
+};
+
+export default SkeletonButton;

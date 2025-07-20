@@ -1,17 +1,15 @@
 .skeletonButton {
-  width: 120px;
-  height: 36px;
-  border-radius: 6px;
-  background: linear-gradient(90deg, #e0e0e0 25%, #f8f8f8 50%, #e0e0e0 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
+  background-color: #e0e0e0;
+  animation: pulse 1.5s infinite ease-in-out;
+  display: inline-block;
 }
 
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0;
+/* Optional animation for pulsing */
+@keyframes pulse {
+  0%, 100% {
+    background-color: #e0e0e0;
   }
-  100% {
-    background-position: -200% 0;
+  50% {
+    background-color: #f0f0f0;
   }
 }

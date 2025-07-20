@@ -1,7 +1,5 @@
-// app/blogs/[id]/page.tsx
-
 import { getBlogById } from '@/lib/fetchBlogs'
-import BlogContentViewer from '@/components/BlogContentViewer/BlogContentViewer'
+import { BlogContentViewer } from '@/components'
 import { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'

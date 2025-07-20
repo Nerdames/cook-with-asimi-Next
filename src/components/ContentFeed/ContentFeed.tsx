@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import ContentCard from '@/components/ContentCard/ContentCard'
 import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
 import Pager from '@/components/Pager/Pager'
-import TagFilter from '@/components/TagFilter/TagFilter'
+import TagFilter from '@/shared/TagFilter/TagFilter'
 import styles from './ContentFeed.module.css'
 
 interface Blog {

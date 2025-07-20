@@ -1,19 +1,17 @@
-'use client'
+'use client';
 
-import { motion, AnimatePresence } from 'framer-motion'
-import Recomended from './Recomended/Recomended'
-import Newsletter from './Newsletter/Newsletter'
-import RelatedTopics from './RelatedTopics/RelatedTopics'
+import { motion, AnimatePresence } from 'framer-motion';
+import { Recomended, Newsletter, RelatedTopics } from '@/LayoutModules';
 
 interface LayoutSidebarProps {
-  modules?: Array<'recomended' | 'newsletter' | 'related'>
+  modules?: Array<'recomended' | 'newsletter' | 'related'>;
 }
 
 export default function LayoutSidebar({ modules = [] }: LayoutSidebarProps) {
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={modules.join('-')} // Forces re-animation on change
+        key={modules.join('-')}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
@@ -24,5 +22,5 @@ export default function LayoutSidebar({ modules = [] }: LayoutSidebarProps) {
         {modules.includes('related') && <RelatedTopics />}
       </motion.div>
     </AnimatePresence>
-  )
+  );
 }

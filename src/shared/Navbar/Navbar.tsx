@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.css'
-import Logo from '@/components/Logo/Logo'
+import Logo from '@/shared/Logo';
 import clsx from 'clsx'
 import 'boxicons/css/boxicons.min.css'
 
