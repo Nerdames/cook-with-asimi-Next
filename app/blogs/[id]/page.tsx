@@ -3,7 +3,6 @@ import BlogContentViewer from '@/components/BlogContentViewer/BlogContentViewer'
 
 export const dynamic = 'force-dynamic'
 
-
 export default async function BlogPage({
   params,
 }: {
