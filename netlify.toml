@@ -1,3 +1,7 @@
 [build]
   command = "npm run build"
   publish = "out"
+
+[build.lifecycle]
+  # This script runs before the build step
+  ignore = "echo 'Skipping build via Netlify Ignore Script' && exit 0"
