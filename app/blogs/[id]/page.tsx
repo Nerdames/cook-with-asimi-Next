@@ -1,26 +1,20 @@
-// app/blogs/[id]/page.tsx
 import { getBlogById } from '@/lib/fetchBlogs'
-import {BlogContentViewer} from '@/components'
+import { BlogContentViewer } from '@/components'
 import type { Metadata } from 'next'
 
+// This forces dynamic rendering
 export const dynamic = 'force-dynamic'
 
-type PageProps = {
-  params: {
-    id: string
-  }
-}
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+// Let Next.js infer the type for `params`
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const blog = await getBlogById(params.id)
-
   return {
     title: blog?.title ?? `Blog: ${params.id}`,
     description: blog?.description ?? 'Read this blog on Cook with Asimi',
   }
 }
 
-export default async function BlogPage({ params }: PageProps) {
+export default async function BlogPage({ params }: { params: { id: string } }) {
   const blog = await getBlogById(params.id)
 
   if (!blog) return <div>Blog not found</div>
