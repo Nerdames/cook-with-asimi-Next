@@ -1,8 +1,10 @@
+// lib/fetchBlogs.ts
 import { sanityClient } from './sanityClient'
 import { groq } from 'next-sanity'
+import type { Blog } from '@/lib/types/blog'
 
-// Fetch all blogs
-export async function fetchBlogs() {
+// Get all blogs
+export async function fetchBlogs(): Promise<Blog[]> {
   const query = groq`
     *[_type == "blog"]{
       _id,
@@ -19,8 +21,8 @@ export async function fetchBlogs() {
   return await sanityClient.fetch(query)
 }
 
-// Fetch a single blog by _id
-export async function getBlogById(id: string) {
+// Get one blog by ID
+export async function getBlogById(id: string): Promise<Blog | null> {
   const query = groq`
     *[_type == "blog" && _id == $id][0]{
       _id,
@@ -32,14 +34,15 @@ export async function getBlogById(id: string) {
       tags,
       thumbnail{asset->{url}},
       video,
-      body
+      body,
+      related[]->{title, _id}
     }
   `
   return await sanityClient.fetch(query, { id })
 }
 
-// ✅ Fetch recommended/random-like posts
-export async function fetchRecommendedPosts(limit = 8) {
+// Fetch a few recommended posts
+export async function fetchRecommendedPosts(limit = 8): Promise<Partial<Blog>[]> {
   const query = groq`
     *[_type == "blog"] | order(date desc)[0...${limit}]{
       _id,
@@ -49,7 +52,5 @@ export async function fetchRecommendedPosts(limit = 8) {
     }
   `
   const posts = await sanityClient.fetch(query)
-
-  // Shuffle posts to simulate randomness
   return posts.sort(() => 0.5 - Math.random())
 }
