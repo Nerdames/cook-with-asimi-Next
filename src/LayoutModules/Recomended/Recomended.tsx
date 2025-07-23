@@ -44,7 +44,7 @@ export default function Recomended() {
 
   return (
     <section className={styles.recomendedSection}>
-      <h3 className={styles.title}>Recommended for You</h3>
+      <h3 className={styles.title}>Recommended</h3>
 
       <div className={styles.figureContainer}>
         {loading

@@ -1,7 +1,9 @@
 [build]
-  command = "npm run build"
-  publish = "out"
+command = "npm run build"
+publish = ".next"  # Changed from "out" because you're using dynamic routes (App Router)
 
-[build.lifecycle]
-  # This script runs before the build step
-  ignore = "echo 'Skipping build via Netlify Ignore Script' && exit 0"
+[functions]
+directory = "netlify/functions"
+
+[plugins]
+  package = "@netlify/plugin-nextjs"
