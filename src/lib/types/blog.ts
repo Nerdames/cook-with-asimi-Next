@@ -6,8 +6,8 @@ export interface Blog {
   title: string
   description: string
   date: string
-  author: { name: string }
-  category: { title: string }
+  author?: { name?: string }
+  category?: { title?: string }
   tags: string[]
   thumbnail?: { asset: { url: string } }
   video?: string
