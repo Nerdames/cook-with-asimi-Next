@@ -2,14 +2,15 @@ import { getBlogById } from '@/lib/fetchBlogs'
 import { BlogContentViewer } from '@/components'
 import type { Metadata } from 'next'
 
+// This forces dynamic rendering
 export const dynamic = 'force-dynamic'
 
+// Let Next.js infer the type for `params`
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const blog = await getBlogById(params.id)
-
   return {
     title: blog?.title ?? `Blog: ${params.id}`,
-    description: blog?.excerpt ?? 'Read this blog on Cook with Asimi',
+    description: blog?.description ?? 'Read this blog on Cook with Asimi',
   }
 }
 
