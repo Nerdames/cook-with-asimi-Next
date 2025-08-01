@@ -1,6 +1,9 @@
 [build]
 command = "npm run build"
-publish = ".next"  # Changed from "out" because you're using dynamic routes (App Router)
+publish = ".next"
+
+[build.environment]
+NODE_VERSION = "18"
 
 [functions]
 directory = "netlify/functions"
