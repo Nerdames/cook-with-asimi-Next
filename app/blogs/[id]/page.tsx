@@ -1,11 +1,9 @@
 import { getBlogById } from '@/lib/fetchBlogs'
-import { BlogContentViewer } from '@/components'
+import BlogContentViewer from '@/components/BlogContentViewer/BlogContentViewer'
 import type { Metadata } from 'next'
 
-// This forces dynamic rendering
 export const dynamic = 'force-dynamic'
 
-// Let Next.js infer types instead of manually defining PageProps
 export async function generateMetadata({
   params,
 }: {
@@ -18,7 +16,6 @@ export async function generateMetadata({
   }
 }
 
-// Remove PageProps and use inline type annotation
 export default async function BlogPage({
   params,
 }: {
@@ -26,7 +23,30 @@ export default async function BlogPage({
 }) {
   const blog = await getBlogById(params.id)
 
-  if (!blog) return <div>Blog not found</div>
+  if (
+    !blog ||
+    !blog.author?.name ||
+    !blog.category?.title ||
+    !blog.title ||
+    !blog.date ||
+    !blog.description ||
+    !blog.body
+  ) {
+    return <div>Blog not found or missing required fields.</div>
+  }
 
-  return <BlogContentViewer {...blog} />
+  return (
+    <BlogContentViewer
+      title={blog.title}
+      date={blog.date}
+      author={{ name: blog.author.name }}
+      category={{ title: blog.category.title }}
+      description={blog.description}
+      tags={blog.tags || []}
+      thumbnail={blog.thumbnail}
+      video={blog.video}
+      body={blog.body}
+      related={blog.related || []}
+    />
+  )
 }
