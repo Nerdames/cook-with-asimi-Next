@@ -1,9 +1,9 @@
 [build]
-command = "npm run build"
-publish = ".next"  # Changed from "out" because you're using dynamic routes (App Router)
+  command = "CI= npm run build"
+  publish = ".next"
 
 [functions]
-directory = "netlify/functions"
+  directory = "netlify/functions"
 
 [[plugins]]
-package = "@netlify/plugin-nextjs"
+  package = "@netlify/plugin-nextjs"
