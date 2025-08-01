@@ -5,5 +5,5 @@ publish = ".next"  # Changed from "out" because you're using dynamic routes (App
 [functions]
 directory = "netlify/functions"
 
-[plugins]
-  package = "@netlify/plugin-nextjs"
+[[plugins]]
+package = "@netlify/plugin-nextjs"
