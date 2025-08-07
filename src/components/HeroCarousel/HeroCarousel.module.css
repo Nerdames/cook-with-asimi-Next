@@ -1,5 +1,6 @@
 @import 'boxicons/css/boxicons.min.css';
 
+/* Main Layout */
 .heroSection {
   width: 100%;
   position: relative;
@@ -33,9 +34,10 @@
   overflow: hidden;
 }
 
+/* Featured Post */
 .featuredPost {
   transition: all 0.5s ease;
-  animation: widthFade 1s ease;
+  animation: widthFade 1.8s ease forwards;
   overflow: hidden;
   position: relative;
   aspect-ratio: 16 / 9;
@@ -73,6 +75,43 @@
   aspect-ratio: 16 / 9;
 }
 
+/* Hot Posts */
+.hotPosts {
+  display: grid;
+  grid-template-rows: 60% 40%;
+  gap: 6px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hotPostTop {
+  height: 100%;
+  width: 100%;
+  animation: fadeInTop 1.4s ease forwards;
+  animation-delay: 0.3s;
+  overflow: hidden;
+}
+
+.hotPostBottom {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: 6px;
+  overflow: hidden;
+}
+
+
+/* Apply fade to each bottom post with delay */
+.hotPostBottom .post:nth-child(1) {
+  animation: fadeInBottom 1.5s ease forwards;
+  animation-delay: 0.8s;
+}
+.hotPostBottom .post:nth-child(2) {
+  animation: fadeInBottom 1.5s ease forwards;
+  animation-delay: 1s;
+}
+
+/* Shared Post Styling */
 .post {
   position: relative;
   border-radius: 8px;
@@ -134,10 +173,7 @@
   text-overflow: ellipsis;
 }
 
-.navButtons {
-  display: none;
-}
-
+/* Dots Navigation */
 .dots {
   position: absolute;
   bottom: 10px;
@@ -162,65 +198,11 @@
   width: 12px;
 }
 
-.hotPosts {
-  display: grid;
-  grid-template-rows: 60% 40%;
-  gap: 6px;
-  height: 100%;
-  overflow: hidden;
-}
-
-.hotPostTop {
-  animation: fadeInTop 1s ease;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  overflow: hidden;
-}
-
-.hotPostBottom {
-  display: flex;
-  gap: 6px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  animation: fadeInBottom 1s ease;
-  overflow: hidden;
-}
-
-/* Animations */
-@keyframes widthFade {
-  from {
-    opacity: 0;
-    width: 90%;
-  }
-  to {
-    opacity: 1;
-    width: 100%;
-  }
-}
-
-@keyframes fadeInTop {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInBottom {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Desktop Nav Buttons */
+.navButtons {
+  display: none;
+}
+
 @media (min-width: 1025px) {
   .navButtons {
     display: flex;
@@ -251,6 +233,40 @@
 
   .navButtons i {
     font-size: 24px;
+  }
+}
+
+/* Animations */
+@keyframes widthFade {
+  from {
+    opacity: 0;
+    width: 90%;
+  }
+  to {
+    opacity: 1;
+    width: 100%;
+  }
+}
+
+@keyframes fadeInTop {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
