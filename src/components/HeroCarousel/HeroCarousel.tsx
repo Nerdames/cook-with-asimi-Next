@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
@@ -9,21 +9,25 @@ import styles from './HeroCarousel.module.css'
 
 interface BlogPost {
   _id: string
+  slug: string
   title: string
   thumbnail?: { asset: { url: string } }
 }
 
 export default function HeroCarousel() {
   const [posts, setPosts] = useState<BlogPost[]>([])
+  const [currentSlide, setCurrentSlide] = useState(0)
   const [loading, setLoading] = useState(true)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     async function fetchPosts() {
       setLoading(true)
       const query = groq`
-        *[_type == "blog"] | order(date desc)[0...3] {
+        *[_type == "blog"] | order(date desc)[0...4] {
           _id,
           title,
+          "slug": slug.current,
           thumbnail { asset->{ url } }
         }
       `
@@ -40,6 +44,28 @@ export default function HeroCarousel() {
     fetchPosts()
   }, [])
 
+  useEffect(() => {
+    if (posts.length > 0) {
+      intervalRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % 4)
+      }, 5000)
+      return () => clearInterval(intervalRef.current!)
+    }
+  }, [posts])
+
+  const goToSlide = (index: number) => {
+    clearInterval(intervalRef.current!)
+    setCurrentSlide(index)
+  }
+
+  const nextSlide = () => {
+    goToSlide((currentSlide + 1) % 4)
+  }
+
+  const prevSlide = () => {
+    goToSlide((currentSlide - 1 + 4) % 4)
+  }
+
   if (loading) {
     return (
       <section className={styles.heroSection}>
@@ -48,46 +74,89 @@ export default function HeroCarousel() {
           <SkeletonCard />
           <div className={styles.hotPosts}>
             <SkeletonCard />
-            <SkeletonCard />
           </div>
         </div>
       </section>
     )
   }
 
+  const featuredPost = posts[currentSlide]
+  const hotPostsTop = posts[0]
+  const hotPostsBottom = posts.slice(1, 3)
+
   return (
     <section className={styles.heroSection}>
       <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
       <div className={styles.heroCarouselGrid}>
+        <div className={styles.carouselWrapper}>
+          <Link
+            href={`/blogs/${featuredPost.slug}`}
+            className={`${styles.featuredPost} ${styles.post}`}
+            key={featuredPost._id}
+          >
+            <img
+              src={featuredPost.thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
+              alt={featuredPost.title}
+              className={styles.carouselImage}
+            />
+            <div className={styles.featuredPostTitle}>
+              <h2>{featuredPost.title}</h2>
+            </div>
+          </Link>
 
-        <Link href={`/blogs/${posts[0]?._id}`} className={`${styles.featuredPost} ${styles.post}`}>
-          <img
-            src={posts[0]?.thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
-            alt={posts[0]?.title || 'Featured Post'}
-          />
-          <div className={styles.postOverlay}>
-            <h2>{posts[0]?.title}</h2>
+          <div className={styles.navButtons}>
+            <button onClick={prevSlide}>
+              <i className="bx bx-chevron-left"></i>
+            </button>
+            <button onClick={nextSlide}>
+              <i className="bx bx-chevron-right"></i>
+            </button>
           </div>
-        </Link>
 
-        <div className={styles.hotPosts}>
-          {posts.slice(1).map(post => (
-            <Link
-              href={`/blogs/${post._id}`}
-              key={post._id}
-              className={`${styles.hotPost} ${styles.post}`}
-            >
-              <img
-                src={post.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
-                alt={post.title}
+          <div className={styles.dots}>
+            {posts.map((_, idx) => (
+              <span
+                key={idx}
+                className={`${styles.dot} ${idx === currentSlide ? styles.activeDot : ''}`}
+                onClick={() => goToSlide(idx)}
               />
-              <div className={styles.postOverlay}>
-                <h3>{post.title}</h3>
-              </div>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
 
+        <div className={styles.hotPosts}>
+          <Link
+            href={`/blogs/${hotPostsTop.slug}`}
+            className={`${styles.hotPost} ${styles.post} ${styles.hotPostTop}`}
+            key={hotPostsTop._id}
+          >
+            <img
+              src={hotPostsTop.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
+              alt={hotPostsTop.title}
+            />
+            <div className={styles.postOverlay}>
+              <h2 className={styles.hotPostTitle}>{hotPostsTop.title}</h2>
+            </div>
+          </Link>
+
+          <div className={styles.hotPostBottom}>
+            {hotPostsBottom.map(post => (
+              <Link
+                href={`/blogs/${post.slug}`}
+                key={post._id}
+                className={`${styles.hotPost} ${styles.post}`}
+              >
+                <img
+                  src={post.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
+                  alt={post.title}
+                />
+                <div className={styles.postOverlay}>
+                  <h2 className={styles.hotPostTitle}>{post.title}</h2>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
