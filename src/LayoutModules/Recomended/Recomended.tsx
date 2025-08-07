@@ -1,15 +1,18 @@
+// src/LayoutModules/Recomended/Recomended.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
-import FigureContent from '@/components/FigureContent/FigureContent'
 import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
+import FigureContent from '@/components/FigureContent/FigureContent'
 import styles from './Recomended.module.css'
 
 interface RecommendedPost {
   _id: string
   title: string
+  slug: string
   tags: string[]
   thumbnail?: { asset: { url: string } }
 }
@@ -24,6 +27,7 @@ export default function Recomended() {
         *[_type == "blog"] | order(date desc)[0...20] {
           _id,
           title,
+          "slug": slug.current,
           tags,
           thumbnail { asset->{url} }
         }
@@ -54,6 +58,7 @@ export default function Recomended() {
           : recommended.map(item => (
               <FigureContent
                 key={item._id}
+                slug={item.slug}
                 image={item.thumbnail?.asset.url || 'https://via.placeholder.com/140x100'}
                 text={item.title}
                 tag={item.tags[0] || undefined}
