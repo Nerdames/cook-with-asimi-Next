@@ -4,6 +4,7 @@ import styles from './ContentCard.module.css'
 
 interface ContentCardProps {
   id: string
+  slug: string
   image?: string
   video?: string
   date: string
@@ -17,7 +18,7 @@ interface ContentCardProps {
 }
 
 export default function ContentCard({
-  id,
+  slug,
   image,
   video,
   date,
@@ -44,7 +45,7 @@ export default function ContentCard({
             alt={title}
             width={800}
             height={500}
-            className={styles.image} // Make sure your CSS handles `object-fit`, `border-radius`, etc.
+            className={styles.image}
           />
         ) : video ? (
           <iframe
@@ -66,7 +67,7 @@ export default function ContentCard({
           <p className={styles.contentCategory}>{category}</p>
 
           <h5 className={styles.contentTitle}>
-            <Link href={`/blogs/${id}`}>{title}</Link>
+            <Link href={`/blogs/${slug}`}>{title}</Link>
           </h5>
 
           <p className={styles.contentMeta}>
@@ -98,7 +99,7 @@ export default function ContentCard({
         )}
 
         <div className={styles.contentFooter}>
-          <Link href={`/blogs/${id}`}>
+          <Link href={`/blogs/${slug}`}>
             <button>{primaryAction}</button>
           </Link>
         </div>

@@ -2,6 +2,7 @@
 import type { PortableTextBlock } from '@portabletext/types'
 
 export interface Blog {
+  slug: any
   _id: string
   title: string
   description: string
@@ -12,5 +13,5 @@ export interface Blog {
   thumbnail?: { asset: { url: string } }
   video?: string
   body: PortableTextBlock[]
-  related?: { title: string; _id: string }[]
+  related?: { title: string; slug: { current: string } }[]  // ✅ updated to support proper linking
 }

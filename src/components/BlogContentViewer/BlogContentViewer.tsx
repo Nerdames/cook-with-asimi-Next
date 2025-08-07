@@ -16,7 +16,7 @@ interface BlogContentViewerProps {
   body: PortableTextBlock[]
   tags: string[]
   thumbnail?: { asset: { url: string } }
-  related?: { title: string; _id: string }[]
+  related?: { title: string; slug?: { current?: string } }[]
 }
 
 function getEmbedUrl(videoUrl: string): string {
@@ -102,11 +102,13 @@ export default function BlogContentViewer({
         <section className={styles.section}>
           <h4>Related Posts</h4>
           <ul className={styles.relatedList}>
-            {related.map((rel, idx) => (
-              <li key={idx}>
-                <Link href={`/blogs/${rel._id}`}>{rel.title}</Link>
-              </li>
-            ))}
+            {related.map((rel, idx) =>
+              rel?.slug?.current ? (
+                <li key={idx}>
+                  <Link href={`/blogs/${rel.slug.current}`}>{rel.title}</Link>
+                </li>
+              ) : null
+            )}
           </ul>
         </section>
       )}

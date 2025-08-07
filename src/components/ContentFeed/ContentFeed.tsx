@@ -9,6 +9,7 @@ import styles from './ContentFeed.module.css'
 
 interface Blog {
   _id: string
+  slug: { current: string }
   title: string
   description: string
   thumbnail?: { asset?: { url?: string } }
@@ -26,6 +27,9 @@ export default function ContentFeed() {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [selectedCategory, setSelectedCategory] = useState('')
 
   const blogsPerPage = 6
 
@@ -33,38 +37,45 @@ export default function ContentFeed() {
     async function fetchBlogs() {
       setLoading(true)
       try {
-        const queryParams = new URLSearchParams({
-          page: currentPage.toString(),
-          limit: blogsPerPage.toString(),
-          ...(selectedTag !== 'All' && { tag: selectedTag }),
-        })
+        const queryParams = new URLSearchParams()
+        queryParams.set('page', currentPage.toString())
+        queryParams.set('limit', blogsPerPage.toString())
+        if (selectedTag !== 'All') queryParams.set('tag', selectedTag)
+        if (searchQuery) queryParams.set('search', searchQuery)
+        if (sortOrder) queryParams.set('sort', sortOrder)
+        if (selectedCategory) queryParams.set('category', selectedCategory)
 
-        const res = await fetch(`/api/blogs?${queryParams}`)
+        const res = await fetch(`/api/blogs?${queryParams.toString()}`)
         const data = await res.json()
 
-        if (data.success) {
+        if (data.success && Array.isArray(data.data)) {
           const allBlogs = data.data
           setTotalPages(Math.ceil(data.total / blogsPerPage))
           setBlogs(allBlogs)
 
           if (selectedTag === 'All') {
-            const tags = allBlogs.flatMap((blog: Blog) => blog.tags)
+            const tags = allBlogs.flatMap((blog: Blog) => blog.tags || [])
+            const unique = Array.from(new Set(tags))
             setUniqueTags(['All', ...Array.from(new Set(tags as string[]))])
           }
+        } else {
+          console.error('Unexpected API response:', data)
+          setBlogs([])
         }
       } catch (error) {
         console.error('Failed to fetch blogs:', error)
+        setBlogs([])
       } finally {
         setLoading(false)
       }
     }
 
     fetchBlogs()
-  }, [currentPage, selectedTag])
+  }, [currentPage, selectedTag, searchQuery, sortOrder, selectedCategory])
 
   const handleTagSelect = (tag: string) => {
     setSelectedTag(tag)
-    setCurrentPage(1) // Reset to first page when a new tag is selected
+    setCurrentPage(1)
   }
 
   return (
@@ -79,11 +90,12 @@ export default function ContentFeed() {
         Array.from({ length: blogsPerPage }).map((_, i) => (
           <SkeletonCard key={i} />
         ))
-      ) : (
+      ) : blogs.length > 0 ? (
         blogs.map((blog) => (
           <ContentCard
             key={blog._id}
             id={blog._id}
+            slug={blog.slug?.current || blog._id}
             image={blog.thumbnail?.asset?.url}
             video={blog.video}
             date={blog.date || 'Unknown Date'}
@@ -99,11 +111,13 @@ export default function ContentFeed() {
                 ? blog.author
                 : blog.author?.name || 'Samuel Asimi'
             }
-            tags={blog.tags}
+            tags={blog.tags || []}
             primaryAction="Read More"
             onTagClick={handleTagSelect}
           />
         ))
+      ) : (
+        <p>No blogs found for this filter.</p>
       )}
 
       {!loading && totalPages > 1 && (
