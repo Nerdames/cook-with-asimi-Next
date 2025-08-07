@@ -10,7 +10,6 @@ import 'boxicons/css/boxicons.min.css'
 
 const navItems = [
   { path: '/', label: 'Home' },
-  { path: '/recipes', label: 'Recipes' },
   { path: '/blogs', label: 'Blogs' },
   { path: '/about', label: 'About' },
 ]

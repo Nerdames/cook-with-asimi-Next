@@ -6,6 +6,5 @@ export { default as HeroCarousel } from './HeroCarousel';
 export { default as Home } from './Home';
 export { default as NewsletterSection } from './NewsletterSection';
 export { default as Pager } from './Pager'; // Also exported from ui if shared
-export { default as RecipeCard } from './RecipeCard';
 export { default as SkeletonButton } from './SkeletonButton';
 export { default as SkeletonCard } from './SkeletonCard';
