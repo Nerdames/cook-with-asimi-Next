@@ -25,7 +25,7 @@
 
 .goButton {
   position: absolute;
-  right: 8px;
+  right: 0;
   top: 50%;
   transform: translateY(-50%) scale(0.8);
   opacity: 0;
@@ -39,6 +39,7 @@
   z-index: 10;
   transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.3s ease;
   pointer-events: none;
+  height: 100%;
 }
 
 .goVisible {
