@@ -24,7 +24,7 @@ export default function HeroCarousel() {
     async function fetchPosts() {
       setLoading(true)
       const query = groq`
-        *[_type == "blog"] | order(date desc)[0...4] {
+        *[_type == "blog"] | order(date desc)[0...10] {
           _id,
           title,
           "slug": slug.current,
@@ -47,7 +47,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     if (posts.length > 0) {
       intervalRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % 4)
+        setCurrentSlide((prev) => (prev + 1) % posts.length)
       }, 5000)
       return () => clearInterval(intervalRef.current!)
     }
@@ -59,11 +59,11 @@ export default function HeroCarousel() {
   }
 
   const nextSlide = () => {
-    goToSlide((currentSlide + 1) % 4)
+    goToSlide((currentSlide + 1) % posts.length)
   }
 
   const prevSlide = () => {
-    goToSlide((currentSlide - 1 + 4) % 4)
+    goToSlide((currentSlide - 1 + posts.length) % posts.length)
   }
 
   if (loading) {
@@ -82,7 +82,7 @@ export default function HeroCarousel() {
 
   const featuredPost = posts[currentSlide]
   const hotPostsTop = posts[0]
-  const hotPostsBottom = posts.slice(1, 3)
+  const hotPostsBottom = posts.slice(1, 3) // You can increase this if desired
 
   return (
     <section className={styles.heroSection}>
