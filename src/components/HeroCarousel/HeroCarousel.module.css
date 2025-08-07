@@ -280,11 +280,6 @@
     font-size: 1.2rem;
   }
 
-  .heroCarouselGrid {
-    gap: 8px;
-    grid-template-columns: 1fr;
-  }
-
   .hotPosts {
     grid-template-rows: auto;
   }
@@ -293,9 +288,6 @@
     font-size: 0.9rem;
   }
 
-  .hotPostBottom {
-    flex-direction: column;
-  }
 }
 
 /* Mobile */
@@ -303,6 +295,10 @@
   .heroCarouselGrid {
     grid-template-columns: 1fr;
     grid-template-rows: auto auto;
+  }
+
+  .hotPosts {
+    display: none;
   }
 
   .heroTitle {
