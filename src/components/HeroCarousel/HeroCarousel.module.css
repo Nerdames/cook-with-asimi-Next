@@ -38,6 +38,7 @@
   animation: widthFade 1s ease;
   overflow: hidden;
   position: relative;
+  aspect-ratio: 16 / 9;
 }
 
 .featuredPostTitle {
@@ -69,6 +70,7 @@
   object-fit: cover;
   border-radius: 4px;
   transition: transform 0.5s ease;
+  aspect-ratio: 16 / 9;
 }
 
 .post {
@@ -84,6 +86,11 @@
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
+  aspect-ratio: 16 / 9;
+}
+
+.hotPost {
+  aspect-ratio: 16 / 9;
 }
 
 .post:hover img {
@@ -92,7 +99,8 @@
 
 .postOverlay {
   position: absolute;
-  top: 0; left: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
@@ -138,7 +146,6 @@
   display: flex;
   gap: 8px;
   z-index: 20;
-  backdrop-filter: blur(10px);
 }
 
 .dot {
@@ -178,7 +185,6 @@
   animation: fadeInBottom 1s ease;
   overflow: hidden;
 }
-
 
 /* Animations */
 @keyframes widthFade {

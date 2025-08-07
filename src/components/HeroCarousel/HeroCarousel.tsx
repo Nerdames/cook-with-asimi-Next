@@ -20,6 +20,7 @@ export default function HeroCarousel() {
   const [loading, setLoading] = useState(true)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Fetch posts
   useEffect(() => {
     async function fetchPosts() {
       setLoading(true)
@@ -44,10 +45,11 @@ export default function HeroCarousel() {
     fetchPosts()
   }, [])
 
+  // Auto-slide carousel
   useEffect(() => {
     if (posts.length > 0) {
       intervalRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % posts.length)
+        setCurrentSlide(prev => (prev + 1) % posts.length)
       }, 5000)
       return () => clearInterval(intervalRef.current!)
     }
@@ -58,13 +60,8 @@ export default function HeroCarousel() {
     setCurrentSlide(index)
   }
 
-  const nextSlide = () => {
-    goToSlide((currentSlide + 1) % posts.length)
-  }
-
-  const prevSlide = () => {
-    goToSlide((currentSlide - 1 + posts.length) % posts.length)
-  }
+  const nextSlide = () => goToSlide((currentSlide + 1) % posts.length)
+  const prevSlide = () => goToSlide((currentSlide - 1 + posts.length) % posts.length)
 
   if (loading) {
     return (
@@ -74,6 +71,7 @@ export default function HeroCarousel() {
           <SkeletonCard />
           <div className={styles.hotPosts}>
             <SkeletonCard />
+            <SkeletonCard />
           </div>
         </div>
       </section>
@@ -81,13 +79,17 @@ export default function HeroCarousel() {
   }
 
   const featuredPost = posts[currentSlide]
-  const hotPostsTop = posts[0]
-  const hotPostsBottom = posts.slice(1, 3) // You can increase this if desired
+
+  // Filter hot posts to exclude the featured post
+  const hotPosts = posts.filter(post => post._id !== featuredPost._id)
+  const hotPostsTop = hotPosts[0]
+  const hotPostsBottom = hotPosts.slice(1, 3)
 
   return (
     <section className={styles.heroSection}>
       <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
       <div className={styles.heroCarouselGrid}>
+        {/* Featured Carousel */}
         <div className={styles.carouselWrapper}>
           <Link
             href={`/blogs/${featuredPost.slug}`}
@@ -104,6 +106,7 @@ export default function HeroCarousel() {
             </div>
           </Link>
 
+          {/* Arrows */}
           <div className={styles.navButtons}>
             <button onClick={prevSlide}>
               <i className="bx bx-chevron-left"></i>
@@ -113,6 +116,7 @@ export default function HeroCarousel() {
             </button>
           </div>
 
+          {/* Dots */}
           <div className={styles.dots}>
             {posts.map((_, idx) => (
               <span
@@ -124,20 +128,23 @@ export default function HeroCarousel() {
           </div>
         </div>
 
+        {/* Hot Posts */}
         <div className={styles.hotPosts}>
-          <Link
-            href={`/blogs/${hotPostsTop.slug}`}
-            className={`${styles.hotPost} ${styles.post} ${styles.hotPostTop}`}
-            key={hotPostsTop._id}
-          >
-            <img
-              src={hotPostsTop.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
-              alt={hotPostsTop.title}
-            />
-            <div className={styles.postOverlay}>
-              <h2 className={styles.hotPostTitle}>{hotPostsTop.title}</h2>
-            </div>
-          </Link>
+          {hotPostsTop && (
+            <Link
+              href={`/blogs/${hotPostsTop.slug}`}
+              className={`${styles.hotPost} ${styles.post} ${styles.hotPostTop}`}
+              key={hotPostsTop._id}
+            >
+              <img
+                src={hotPostsTop.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
+                alt={hotPostsTop.title}
+              />
+              <div className={styles.postOverlay}>
+                <h2 className={styles.hotPostTitle}>{hotPostsTop.title}</h2>
+              </div>
+            </Link>
+          )}
 
           <div className={styles.hotPostBottom}>
             {hotPostsBottom.map(post => (
