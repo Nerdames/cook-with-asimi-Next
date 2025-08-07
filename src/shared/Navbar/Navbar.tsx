@@ -4,9 +4,10 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import styles from './Navbar.module.css'
-import Logo from '@/shared/Logo';
+import Logo from '@/shared/Logo'
 import clsx from 'clsx'
 import 'boxicons/css/boxicons.min.css'
+import SearchBar from '@/shared/SearchBar' // ✅ Import SearchBar
 
 const navItems = [
   { path: '/', label: 'Home' },
@@ -52,10 +53,12 @@ export default function Navbar() {
         showNavbar ? styles.visible : styles.hidden
       )}
     >
+      {/* Left: Logo */}
       <div className={styles.navLeft}>
         <Logo />
       </div>
 
+      {/* Center: Nav links */}
       <div className={clsx(styles.navCenter, isMobileMenuOpen && styles.mobileOpen)}>
         <ul className={clsx(styles.pages, isMobileMenuOpen && styles.mobileOpen)}>
           {navItems.map(({ path, label }) => (
@@ -72,7 +75,14 @@ export default function Navbar() {
         </ul>
       </div>
 
+      {/* Right: SearchBar + Mobile toggle */}
       <div className={styles.navRight}>
+        {/* Desktop SearchBar */}
+        <div className={styles.searchWrapper}>
+          <SearchBar />
+        </div>
+
+        {/* Mobile toggle button */}
         <button
           className={styles.mobileToggle}
           onClick={toggleMobileMenu}

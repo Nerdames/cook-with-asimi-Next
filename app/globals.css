@@ -52,6 +52,13 @@ p, h1, h2, h3, h4, h5 {
   color: var(--text-dark);
 }
 
+/* Highlight matching text */
+mark {
+  background: transparent;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
 /* ========== Layout Grid ========== */
 .container {
   display: grid;
