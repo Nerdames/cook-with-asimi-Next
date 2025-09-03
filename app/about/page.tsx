@@ -21,7 +21,7 @@ export default function AboutPage() {
         />
         <div className={styles.heroText}>
           <h1>Hi, I&apos;m Asimi 👩‍🍳</h1>
-          <p>Home cook. Recipe developer. Food storyteller.</p>
+          <p>Chef. Recipe developer. Food storyteller.</p>
         </div>
       </section>
 
