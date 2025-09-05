@@ -2,7 +2,7 @@
 import type { PortableTextBlock } from '@portabletext/types'
 
 export interface Blog {
-  slug: any
+  slug: string
   _id: string
   title: string
   description: string
