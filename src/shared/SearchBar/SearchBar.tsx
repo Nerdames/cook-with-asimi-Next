@@ -10,7 +10,7 @@ import styles from './SearchBar.module.css'
 interface BlogPost {
   _id: string
   title: string
-  slug: { current: string }
+  slug?: { current: string }
   description?: string
   tags?: string[]
 }
@@ -27,6 +27,7 @@ export default function SearchBar() {
     if (!query.trim()) {
       setResults([])
       setActiveIndex(-1)
+      setLoading(false)
       return
     }
 
@@ -34,9 +35,9 @@ export default function SearchBar() {
       setLoading(true)
 
       const searchQuery = groq`
-        *[_type == "blog" && (
-          title match $q ||
-          description match $q ||
+        *[(_type == "blog" || _type == "post") && defined(slug.current) && (
+          title match $q || 
+          description match $q || 
           $q in tags[]
         )][0...5] {
           _id,
@@ -48,13 +49,16 @@ export default function SearchBar() {
       `
 
       sanityClient
-        .fetch(searchQuery, { q: `*${query}*` })
+        .fetch(searchQuery, { q: `${query.trim()}*` })
         .then((data: BlogPost[]) => {
-          setResults(data)
+          setResults(data || [])
           setActiveIndex(-1)
           setLoading(false)
         })
-        .catch(() => setLoading(false))
+        .catch((err) => {
+          console.error("Sanity Fetch Error:", err)
+          setLoading(false)
+        })
     }, 400)
 
     return () => clearTimeout(delayDebounce)
@@ -63,10 +67,9 @@ export default function SearchBar() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (query.trim()) {
+      // Syncs seamlessly to SearchFeed.tsx
       router.push(`/search?q=${encodeURIComponent(query.trim())}`)
-      setQuery('')
-      setResults([])
-      setActiveIndex(-1)
+      handleResultClick()
     }
   }
 
@@ -90,8 +93,9 @@ export default function SearchBar() {
     }
 
     if (e.key === 'Enter') {
-      if (activeIndex >= 0 && results[activeIndex]) {
-        router.push(`/blogs/${results[activeIndex].slug.current}`)
+      if (activeIndex >= 0 && results[activeIndex]?.slug?.current) {
+        e.preventDefault()
+        router.push(`/blogs/${results[activeIndex].slug?.current}`)
         handleResultClick()
       } else {
         handleSubmit(e)
@@ -101,7 +105,7 @@ export default function SearchBar() {
 
   const highlightMatch = (text: string) => {
     const q = query.trim()
-    if (!q) return text
+    if (!q || !text) return text
     const regex = new RegExp(`(${q})`, 'gi')
     return text.replace(regex, '<mark>$1</mark>')
   }
@@ -111,18 +115,11 @@ export default function SearchBar() {
       <input
         type="text"
         className={styles.searchInput}
-        placeholder="Search..."
+        placeholder="Search recipes..."
         value={query}
         onChange={e => setQuery(e.target.value)}
         onKeyDown={handleKeyDown}
         required
-        aria-autocomplete="list"
-        aria-controls="search-results"
-        aria-activedescendant={
-          activeIndex >= 0 && results[activeIndex]?._id
-            ? `search-item-${results[activeIndex]._id}`
-            : undefined
-        }
       />
 
       {query && (
@@ -132,27 +129,14 @@ export default function SearchBar() {
       )}
 
       {(results.length > 0 || loading || (!loading && query && results.length === 0)) && (
-        <ul
-          className={`${styles.resultsList} ${styles.fadeIn}`}
-          id="search-results"
-          role="listbox"
-        >
-          {loading && (
-            <li className={styles.searchStatus} role="option">
-              Searching...
-            </li>
-          )}
+        <ul className={`${styles.resultsList} ${styles.fadeIn}`} id="search-results" role="listbox">
+          {loading && <li className={styles.searchStatus}>Searching...</li>}
 
           {!loading && results.length > 0 &&
             results.map((post, index) => (
-              <li
-                key={post._id}
-                id={`search-item-${post._id}`}
-                role="option"
-                aria-selected={index === activeIndex}
-              >
+              <li key={post._id} role="option" aria-selected={index === activeIndex}>
                 <Link
-                  href={`/blogs/${post.slug.current}`}
+                  href={`/blogs/${post.slug?.current || '#'}`}
                   className={`${styles.resultLink} ${index === activeIndex ? styles.activeItem : ''}`}
                   onClick={handleResultClick}
                   dangerouslySetInnerHTML={{ __html: highlightMatch(post.title) }}
@@ -161,9 +145,7 @@ export default function SearchBar() {
             ))}
 
           {!loading && query && results.length === 0 && (
-            <li className={styles.searchStatus} role="option">
-              No results found.
-            </li>
+            <li className={styles.searchStatus}>No results found.</li>
           )}
         </ul>
       )}

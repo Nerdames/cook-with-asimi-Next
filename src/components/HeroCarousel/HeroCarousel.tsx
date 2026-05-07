@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
-import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
 import styles from './HeroCarousel.module.css'
 
 interface BlogPost {
@@ -22,8 +22,9 @@ export default function HeroCarousel() {
 
   // Fetch posts
   useEffect(() => {
+    let isMounted = true
+
     async function fetchPosts() {
-      setLoading(true)
       const query = groq`
         *[_type == "blog"] | order(date desc)[0...10] {
           _id,
@@ -34,15 +35,16 @@ export default function HeroCarousel() {
       `
       try {
         const data: BlogPost[] = await sanityClient.fetch(query)
-        setPosts(data)
+        if (isMounted) setPosts(data)
       } catch (err) {
         console.error('Failed to fetch hero carousel posts', err)
       } finally {
-        setLoading(false)
+        if (isMounted) setLoading(false)
       }
     }
 
     fetchPosts()
+    return () => { isMounted = false }
   }, [])
 
   // Auto-slide carousel
@@ -51,27 +53,38 @@ export default function HeroCarousel() {
       intervalRef.current = setInterval(() => {
         setCurrentSlide(prev => (prev + 1) % posts.length)
       }, 5000)
-      return () => clearInterval(intervalRef.current!)
     }
-  }, [posts])
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
+    }
+  }, [posts.length]) // Depend on length to avoid resetting interval on every state change
 
   const goToSlide = (index: number) => {
-    clearInterval(intervalRef.current!)
+    if (intervalRef.current) clearInterval(intervalRef.current)
     setCurrentSlide(index)
   }
 
   const nextSlide = () => goToSlide((currentSlide + 1) % posts.length)
   const prevSlide = () => goToSlide((currentSlide - 1 + posts.length) % posts.length)
 
-  if (loading) {
+  // Inline Skeleton: Mirrors the exact DOM structure to prevent layout shift
+  if (loading || posts.length === 0) {
+    const skeletonStyle = { backgroundColor: '#e5e7eb', borderRadius: '8px', minHeight: '100%' }
+    
     return (
       <section className={styles.heroSection}>
         <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
         <div className={styles.heroCarouselGrid}>
-          <SkeletonCard />
+          {/* Featured Skeleton */}
+          <div className={styles.carouselWrapper} style={{ ...skeletonStyle, minHeight: '400px' }} />
+          
+          {/* Hot Posts Skeleton */}
           <div className={styles.hotPosts}>
-            <SkeletonCard />
-            <SkeletonCard />
+            <div className={`${styles.hotPost} ${styles.hotPostTop}`} style={{ ...skeletonStyle, minHeight: '190px' }} />
+            <div className={styles.hotPostBottom}>
+              <div className={styles.hotPost} style={{ ...skeletonStyle, minHeight: '190px' }} />
+              <div className={styles.hotPost} style={{ ...skeletonStyle, minHeight: '190px' }} />
+            </div>
           </div>
         </div>
       </section>
@@ -79,8 +92,6 @@ export default function HeroCarousel() {
   }
 
   const featuredPost = posts[currentSlide]
-
-  // Filter hot posts to exclude the featured post
   const hotPosts = posts.filter(post => post._id !== featuredPost._id)
   const hotPostsTop = hotPosts[0]
   const hotPostsBottom = hotPosts.slice(1, 3)
@@ -89,6 +100,7 @@ export default function HeroCarousel() {
     <section className={styles.heroSection}>
       <h2 className={styles.heroTitle}>Featured & Hot Posts</h2>
       <div className={styles.heroCarouselGrid}>
+        
         {/* Featured Carousel */}
         <div className={styles.carouselWrapper}>
           <Link
@@ -96,10 +108,14 @@ export default function HeroCarousel() {
             className={`${styles.featuredPost} ${styles.post}`}
             key={featuredPost._id}
           >
-            <img
+            <Image
               src={featuredPost.thumbnail?.asset.url || 'https://via.placeholder.com/800x400'}
               alt={featuredPost.title}
               className={styles.carouselImage}
+              width={800}
+              height={400}
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              priority
             />
             <div className={styles.featuredPostTitle}>
               <h2>{featuredPost.title}</h2>
@@ -108,10 +124,10 @@ export default function HeroCarousel() {
 
           {/* Arrows */}
           <div className={styles.navButtons}>
-            <button onClick={prevSlide}>
+            <button onClick={prevSlide} aria-label="Previous slide">
               <i className="bx bx-chevron-left"></i>
             </button>
-            <button onClick={nextSlide}>
+            <button onClick={nextSlide} aria-label="Next slide">
               <i className="bx bx-chevron-right"></i>
             </button>
           </div>
@@ -136,9 +152,12 @@ export default function HeroCarousel() {
               className={`${styles.hotPost} ${styles.post} ${styles.hotPostTop}`}
               key={hotPostsTop._id}
             >
-              <img
+              <Image
                 src={hotPostsTop.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
                 alt={hotPostsTop.title}
+                width={400}
+                height={200}
+                style={{ objectFit: 'cover', width: '100%', height: '100%' }}
               />
               <div className={styles.postOverlay}>
                 <h2 className={styles.hotPostTitle}>{hotPostsTop.title}</h2>
@@ -153,9 +172,12 @@ export default function HeroCarousel() {
                 key={post._id}
                 className={`${styles.hotPost} ${styles.post}`}
               >
-                <img
+                <Image
                   src={post.thumbnail?.asset.url || 'https://via.placeholder.com/400x200'}
                   alt={post.title}
+                  width={400}
+                  height={200}
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
                 <div className={styles.postOverlay}>
                   <h2 className={styles.hotPostTitle}>{post.title}</h2>

@@ -5,25 +5,29 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
+// 1. Update the type and await params in generateMetadata
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }): Promise<Metadata> {
-  const blog = await getBlogBySlug(params.slug)
+  const { slug } = await params
+  const blog = await getBlogBySlug(slug)
 
   return {
-    title: blog?.title ?? `Blog: ${params.slug}`,
+    title: blog?.title ?? `Blog: ${slug}`,
     description: blog?.description ?? 'Read this blog on Cook with Asimi',
   }
 }
 
+// 2. Update the type and await params in the main BlogPage component
 export default async function BlogPage({
   params,
 }: {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  const blog = await getBlogBySlug(params.slug)
+  const { slug } = await params
+  const blog = await getBlogBySlug(slug)
 
   // Guard against missing data
   if (!blog?.title || !blog?.slug?.current || !blog?.body) {

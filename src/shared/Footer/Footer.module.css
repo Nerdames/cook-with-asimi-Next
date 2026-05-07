@@ -1,108 +1,129 @@
+/* === Footer 1 Grid Container === */
 .footer1 {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 50px 20px;
+  grid-template-columns: 1fr; /* Default to single column for categories and contact */
+  gap: 40px;
   background-color: var(--bg-black-color);
-  align-items: center;       /* vertically center each grid item */
-  justify-items: center;     /* horizontally center each grid item */
+  justify-items: center;
 }
 
-
+/* === Category Item Container === */
 .footer1Item {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  row-gap: 10px;
-}
-
-.footer1Item ul {
-  list-style: none;
-  padding: 0;
+  align-items: center;
+  width: 100%;
+  max-width: 1000px; /* Allow wide horizontal spread */
+  margin: 0 auto;
+  padding: 50px 20px;
 }
 
 .itemTopic {
   width: 100%;
-  height: 40px;
   color: var(--text-color);
-  line-height: 40px;
+  text-align: center;
   font-size: 20px;
   font-weight: bold;
+  margin-bottom: 20px;
   user-select: none;
 }
 
-.footer1Item li {
+/* === THE HORIZONTAL FLOW LOGIC === */
+.categoryFlex {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;         /* Allows wrapping when space runs out */
+  justify-content: center;   /* Centers the items in the row */
+  gap: 12px;               /* Spacing between chips */
+  width: 100%;
 }
 
-.footer1Item li a {
+.categoryChip {
+  flex: 1 1 auto;          /* GROW and spread evenly, but stay natural */
+  min-width: 140px;        /* Minimum size before wrapping */
+  max-width: 250px;        /* Maximum size so items don't look huge */
+}
+
+.categoryChip a {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px 0;
-  position: relative;
-  overflow: hidden;
-  transition: 0.3s;
+  padding: 12px 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
   color: var(--text-color);
   text-decoration: none;
+  transition: all 0.3s ease;
+  height: 100%;
 }
 
-.footer1Item li a i {
-  font-size: 24px;
-  color: var(--text-color);
-  transition: color 0.3s ease;
+.categoryChip a span {
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
 }
 
-.footer1Item li a span {
-  font-size: 18px;
-  transition: color 0.3s ease;
+.categoryChip a:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #000;
+  transform: translateY(-3px);
 }
 
-.footer1Item li a:hover,
-.footer1Item li a:hover i,
-.footer1Item li a:hover span {
-  color: var(--primary-color);
-  font-weight: 600;
+/* === Contact: Minimalist Footer (DESIGN REMAINS UNCHANGED) === */
+.contact {
+  padding: 5rem 2rem;
+  background: var(--highlight-color);
+  color: white;
+  text-align: center;
+  width: 100%;
 }
 
-/* === Footer2 Styling === */
+.contact h2 {
+  font-family: serif;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.socialLink {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.8rem 1.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+  transition: var(--transition, 0.3s);
+}
+
+.socialLink:hover {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+/* === Footer 2 & Mobile === */
 .footer2 {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  text-align: center;
-  font-size: 0.9rem;
-  padding: 10px 0;
+  padding: 15px 0;
   color: var(--text-light);
   background-color: white;
   border-top: 1px solid var(--border-color);
-  flex-wrap: wrap;
 }
 
-.footer2 p {
-  margin: 5px 0;
-  user-select: none;
-}
-
-/* Mobile view: stack vertically */
 @media (max-width: 600px) {
-  .footer2 {
-    flex-direction: column;
-    row-gap: 10px;
-    height: auto;
-  }
-
-  .footer1Item {
-    border-bottom: 1px solid var(--bg-black-color);
-    width: 100%;
-  }
-
-    .footer1Item:last-child {
-        border-bottom: none;
-    }
+  .footer2 { flex-direction: column; }
+  .categoryChip { flex: 1 1 100%; } /* Stacks fully on small mobile */
 }

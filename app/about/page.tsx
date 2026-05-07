@@ -3,7 +3,7 @@ import styles from './AboutPage.module.css'
 
 export const metadata = {
   title: 'About | Cook with Asimi',
-  description: 'Get to know the creator of Cook with Asimi: a recipe and food storytelling platform.',
+  description: 'Chef, Recipe developer, and Food storyteller.',
 }
 
 export default function AboutPage() {
@@ -11,62 +11,58 @@ export default function AboutPage() {
     <main className={styles.aboutPage}>
       {/* Hero Banner */}
       <section className={styles.hero}>
-        <Image
-          src="/profileimage.jpg" // ✅ Local image in /public
-          alt="Asimi Profile Banner"
-          className={styles.heroImage}
-          width={1600}
-          height={600}
-          priority
-        />
+       
         <div className={styles.heroText}>
-          <h1>Hi, I&apos;m Asimi 👩‍🍳</h1>
-          <p>Chef. Recipe developer. Food storyteller.</p>
+          <p>The Heart Behind the Plate</p>
+          <h1>Hi, I&apos;m Asimi</h1>
         </div>
       </section>
 
       {/* Profile / Bio */}
       <section className={styles.profile}>
-        <Image
-          src="/profileimage.jpg"
-          alt="Asimi Profile"
-          width={150}
-          height={150}
-          className={styles.avatar}
-        />
+        <div className={styles.avatarWrapper}>
+          <Image
+            src="/profileimage.jpg"
+            alt="Asimi Profile"
+            width={500}
+            height={600}
+            className={styles.avatar}
+          />
+        </div>
 
         <div className={styles.bio}>
-          <h2>About Me</h2>
+          <h2>My Story</h2>
           <p>
-            I&apos;m Asimi, and food is my creative playground. I started this platform to help people
-            find joy in cooking simple, soulful dishes from around the world. From spicy stews to
-            quick snacks, I&apos;m here to share recipes, techniques, and a love for storytelling through food.
+            For me, food is more than just sustenance—it&apos;s a creative playground and a 
+            vessel for memory. I started <strong>Cook with Asimi</strong> to bridge the gap between 
+            complex culinary techniques and the home kitchen.
+          </p>
+          <p style={{ marginTop: '1rem' }}>
+            Whether it&apos;s a spicy West African stew or a delicate French pastry, 
+            I believe every dish tells a story. I&apos;m here to help you write yours.
           </p>
         </div>
       </section>
 
-      {/* Skills / What I Do */}
+      {/* Offerings Grid */}
       <section className={styles.skills}>
-        <h2>What I Share</h2>
-        <ul>
-          <li>📝 Personal food blogs & experiences</li>
-          <li>🍽️ Easy, authentic recipes</li>
-          <li>🎥 Step-by-step cooking tutorials</li>
-          <li>📸 Styled food photography</li>
-          <li>📚 Meal planning tips & cultural deep-dives</li>
-        </ul>
-      </section>
-
-      {/* Contact / Socials */}
-      <section className={styles.contact}>
-        <h2>Let&apos;s Connect</h2>
-        <p>
-          Have a recipe idea, collab request, or just want to say hi? Reach out!
-        </p>
-        <div className={styles.socials}>
-          <a href="mailto:asimi@example.com">📧 Email</a>
-          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">📷 Instagram</a>
-          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+        <h2>What We Create Here</h2>
+        <div className={styles.skillGrid}>
+          <div className={styles.skillCard}>
+            <span className={styles.skillIcon}>📝</span>
+            <h3>Culinary Stories</h3>
+            <p>Deep dives into the history and culture behind your favorite ingredients.</p>
+          </div>
+          <div className={styles.skillCard}>
+            <span className={styles.skillIcon}>🍽️</span>
+            <h3>Soulful Recipes</h3>
+            <p>Tested, approachable, and authentic dishes for every skill level.</p>
+          </div>
+          <div className={styles.skillCard}>
+            <span className={styles.skillIcon}>🎥</span>
+            <h3>Visual Guides</h3>
+            <p>High-quality tutorials that make complex steps feel like a breeze.</p>
+          </div>
         </div>
       </section>
     </main>

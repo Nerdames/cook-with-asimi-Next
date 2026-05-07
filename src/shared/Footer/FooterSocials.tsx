@@ -3,29 +3,33 @@ import styles from './Footer.module.css'
 
 const FooterSocials: React.FC = () => {
   return (
-    <div className={styles.footer1Item}>
-      <p className={styles.itemTopic}>Contact Us</p>
-      <ul>
-        <li>
-          <a href="mailto:example@example.com" target="_blank" rel="noopener noreferrer">
-            <i className='bx bx-envelope'></i>
-            <span>Email</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
-            <i className='bx bxl-linkedin'></i>
-            <span>LinkedIn</span>
-          </a>
-        </li>
-        <li>
-          <a href="https://wa.me/yourwhatsapplink" target="_blank" rel="noopener noreferrer">
-            <i className='bx bxl-whatsapp'></i>
-            <span>WhatsApp</span>
-          </a>
-        </li>
-      </ul>
-    </div>
+    <section className={styles.contact}>
+      <h2>Let&apos;s Work Together</h2>
+      <p>
+        Currently open to collaborations, recipe development, and storytelling projects.
+      </p>
+      <div className={styles.socials}>
+        <a href="mailto:asimi@example.com" className={styles.socialLink}>
+          Email Me
+        </a>
+        <a 
+          href="https://instagram.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={styles.socialLink}
+        >
+          Instagram
+        </a>
+        <a 
+          href="https://youtube.com" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={styles.socialLink}
+        >
+          YouTube
+        </a>
+      </div>
+    </section>
   )
 }
 

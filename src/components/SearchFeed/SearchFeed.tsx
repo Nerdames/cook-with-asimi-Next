@@ -1,54 +1,33 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
 import ContentCard from '@/components/ContentCard/ContentCard'
 import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
 import Pager from '@/components/Pager/Pager'
-import { useSearchParams } from 'next/navigation'
 import styles from './SearchFeed.module.css'
 
+// Updated to match your exact ContentCard properties
 interface Blog {
   _id: string
-  slug: { current: string }
+  slug?: { current: string }
   title: string
   description: string
-  mainImage?: { asset?: { url?: string } }
+  thumbnail?: { asset?: { url?: string } } // Changed from mainImage
   video?: string
   tags: string[]
-  publishedAt?: string
+  date?: string // Changed from publishedAt
   author: { name: string } | string
   category: { title: string } | string
-  body?: any[]
 }
 
-const POSTS_PER_PAGE = 6
-
-const highlightMatch = (text: string, q: string): string => {
-  const safeQ = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const regex = new RegExp(`(${safeQ})`, 'gi')
-  return text.replace(regex, '<mark>$1</mark>')
-}
-
-const getExcerpt = (body: any[], q: string): string => {
-  if (!Array.isArray(body)) return ''
-  const lowerQ = q.toLowerCase()
-  for (const block of body) {
-    if (!block.children) continue
-    for (const child of block.children) {
-      if (
-        typeof child.text === 'string' &&
-        child.text.toLowerCase().includes(lowerQ)
-      ) {
-        return child.text
-      }
-    }
-  }
-  return ''
-}
+const blogsPerPage = 6 // Renamed to match your snippet
 
 export default function SearchFeed() {
   const searchParams = useSearchParams()
+  const router = useRouter()
   const q = (searchParams.get('q') || '').trim()
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [blogs, setBlogs] = useState<Blog[]>([])
   const [loading, setLoading] = useState(true)
@@ -56,16 +35,18 @@ export default function SearchFeed() {
 
   useEffect(() => {
     if (!q) return
+    
     async function fetchSearchResults() {
       setLoading(true)
       try {
         const res = await fetch(
-          `/api/search?q=${encodeURIComponent(q)}&page=${currentPage}`
+          `/api/search?q=${encodeURIComponent(q)}&page=${currentPage}&limit=${blogsPerPage}`
         )
         const data = await res.json()
+        
         if (data.success) {
           setBlogs(data.data)
-          setTotalPages(Math.ceil(data.total / POSTS_PER_PAGE))
+          setTotalPages(Math.ceil(data.total / blogsPerPage))
         } else {
           setBlogs([])
         }
@@ -74,14 +55,21 @@ export default function SearchFeed() {
         setBlogs([])
       } finally {
         setLoading(false)
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
 
     fetchSearchResults()
   }, [q, currentPage])
 
+  // Handles clicking a tag inside the ContentCard from the Search page
+  const handleTagSelect = (tag: string) => {
+    // Navigates back to the main blog feed and filters by that tag
+    router.push(`/blogs?tag=${encodeURIComponent(tag)}`)
+  }
+
   if (!q) {
-    return <p className="p-8 text-center">Please enter a search query.</p>
+    return <p className="p-8 text-center text-gray-500">Please enter a search query.</p>
   }
 
   return (
@@ -90,28 +78,23 @@ export default function SearchFeed() {
         Results for <span className="text-primary">&ldquo;{q}&rdquo;</span>
       </h1>
 
-      {loading ? (
-        Array.from({ length: POSTS_PER_PAGE }).map((_, i) => (
-          <SkeletonCard key={i} />
-        ))
-      ) : blogs.length > 0 ? (
-        blogs.map((blog) => {
-          const matchedExcerpt = getExcerpt(blog.body || [], q)
-          const highlightedDescription = matchedExcerpt
-            ? highlightMatch(matchedExcerpt, q)
-            : highlightMatch(blog.description || '', q)
-          const highlightedTitle = highlightMatch(blog.title, q)
-
-          return (
+      <div className="grid gap-8">
+        {/* Your exactly provided correct rendering block */}
+        {loading ? (
+          Array.from({ length: blogsPerPage }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))
+        ) : blogs.length > 0 ? (
+          blogs.map((blog) => (
             <ContentCard
               key={blog._id}
               id={blog._id}
               slug={blog.slug?.current || blog._id}
-              image={blog.mainImage?.asset?.url}
+              image={blog.thumbnail?.asset?.url}
               video={blog.video}
-              date={blog.publishedAt || 'Unknown Date'}
-              title={<span dangerouslySetInnerHTML={{ __html: highlightedTitle }} />}
-              description={<span dangerouslySetInnerHTML={{ __html: highlightedDescription }} />}
+              date={blog.date || 'Unknown Date'}
+              title={blog.title}
+              description={blog.description}
               category={
                 typeof blog.category === 'string'
                   ? blog.category
@@ -120,23 +103,26 @@ export default function SearchFeed() {
               author={
                 typeof blog.author === 'string'
                   ? blog.author
-                  : blog.author?.name || 'Unknown'
+                  : blog.author?.name || 'Samuel Asimi'
               }
               tags={blog.tags || []}
               primaryAction="Read More"
+              onTagClick={handleTagSelect}
             />
-          )
-        })
-      ) : (
-        <p>No results found.</p>
-      )}
+          ))
+        ) : (
+          <p className="text-gray-500 py-10">No blogs found for this filter.</p>
+        )}
+      </div>
 
       {!loading && totalPages > 1 && (
-        <Pager
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        <div className="mt-12 flex justify-center">
+          <Pager
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       )}
     </section>
   )

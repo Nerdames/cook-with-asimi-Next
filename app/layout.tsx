@@ -1,7 +1,6 @@
 import './globals.css';
 import { Navbar, Footer, ScrollToTop } from '@/shared';
 import { SidebarWrapper } from '@/LayoutModules';
-import 'boxicons/css/boxicons.min.css';
 
 export const metadata = {
   title: 'Cook With Asimi',
