@@ -27,9 +27,11 @@ export default function ContentFeed() {
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
-  const [selectedCategory, setSelectedCategory] = useState('')
+  
+  // FIXED: Removed unused 'set' functions to satisfy ESLint
+  const searchQuery = '' 
+  const sortOrder: 'asc' | 'desc' = 'desc'
+  const selectedCategory = ''
 
   const blogsPerPage = 6
 
@@ -40,6 +42,7 @@ export default function ContentFeed() {
         const queryParams = new URLSearchParams()
         queryParams.set('page', currentPage.toString())
         queryParams.set('limit', blogsPerPage.toString())
+        
         if (selectedTag !== 'All') queryParams.set('tag', selectedTag)
         if (searchQuery) queryParams.set('search', searchQuery)
         if (sortOrder) queryParams.set('sort', sortOrder)
@@ -49,17 +52,16 @@ export default function ContentFeed() {
         const data = await res.json()
 
         if (data.success && Array.isArray(data.data)) {
-          const allBlogs = data.data
+          setBlogs(data.data)
           setTotalPages(Math.ceil(data.total / blogsPerPage))
-          setBlogs(allBlogs)
 
-          if (selectedTag === 'All') {
-            const tags = allBlogs.flatMap((blog: Blog) => blog.tags || [])
-            const unique = Array.from(new Set(tags))
-            setUniqueTags(['All', ...Array.from(new Set(tags as string[]))])
+          // Only update unique tags on initial load or when "All" is selected
+          if (selectedTag === 'All' && data.data.length > 0) {
+            const tags = data.data.flatMap((blog: Blog) => blog.tags || [])
+            const unique = Array.from(new Set(tags)) as string[]
+            setUniqueTags(['All', ...unique])
           }
         } else {
-          console.error('Unexpected API response:', data)
           setBlogs([])
         }
       } catch (error) {
@@ -67,6 +69,8 @@ export default function ContentFeed() {
         setBlogs([])
       } finally {
         setLoading(false)
+        // Smooth scroll to top on page/tag change
+        window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     }
 
@@ -86,46 +90,50 @@ export default function ContentFeed() {
         onSelectTag={handleTagSelect}
       />
 
-      {loading ? (
-        Array.from({ length: blogsPerPage }).map((_, i) => (
-          <SkeletonCard key={i} />
-        ))
-      ) : blogs.length > 0 ? (
-        blogs.map((blog) => (
-          <ContentCard
-            key={blog._id}
-            id={blog._id}
-            slug={blog.slug?.current || blog._id}
-            image={blog.thumbnail?.asset?.url}
-            video={blog.video}
-            date={blog.date || 'Unknown Date'}
-            title={blog.title}
-            description={blog.description}
-            category={
-              typeof blog.category === 'string'
-                ? blog.category
-                : blog.category?.title || 'General'
-            }
-            author={
-              typeof blog.author === 'string'
-                ? blog.author
-                : blog.author?.name || 'Samuel Asimi'
-            }
-            tags={blog.tags || []}
-            primaryAction="Read More"
-            onTagClick={handleTagSelect}
-          />
-        ))
-      ) : (
-        <p>No blogs found for this filter.</p>
-      )}
+      <div className={styles.grid}>
+        {loading ? (
+          Array.from({ length: blogsPerPage }).map((_, i) => (
+            <SkeletonCard key={i} />
+          ))
+        ) : blogs.length > 0 ? (
+          blogs.map((blog) => (
+            <ContentCard
+              key={blog._id}
+              id={blog._id}
+              slug={blog.slug?.current || blog._id}
+              image={blog.thumbnail?.asset?.url}
+              video={blog.video}
+              date={blog.date || 'Unknown Date'}
+              title={blog.title}
+              description={blog.description}
+              category={
+                typeof blog.category === 'string'
+                  ? blog.category
+                  : blog.category?.title || 'General'
+              }
+              author={
+                typeof blog.author === 'string'
+                  ? blog.author
+                  : blog.author?.name || 'Samuel Asimi'
+              }
+              tags={blog.tags || []}
+              primaryAction="Read More"
+              onTagClick={handleTagSelect}
+            />
+          ))
+        ) : (
+          <p className={styles.emptyMessage}>No blogs found for this filter.</p>
+        )}
+      </div>
 
       {!loading && totalPages > 1 && (
-        <Pager
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
+        <div className={styles.pagerWrapper}>
+          <Pager
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
       )}
     </section>
   )

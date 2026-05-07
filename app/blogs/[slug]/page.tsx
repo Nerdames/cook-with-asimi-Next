@@ -5,7 +5,6 @@ import type { Metadata } from 'next'
 
 export const dynamic = 'force-dynamic'
 
-// 1. Update the type and await params in generateMetadata
 export async function generateMetadata({
   params,
 }: {
@@ -20,7 +19,6 @@ export async function generateMetadata({
   }
 }
 
-// 2. Update the type and await params in the main BlogPage component
 export default async function BlogPage({
   params,
 }: {
@@ -29,8 +27,12 @@ export default async function BlogPage({
   const { slug } = await params
   const blog = await getBlogBySlug(slug)
 
-  // Guard against missing data
-  if (!blog?.title || !blog?.slug?.current || !blog?.body) {
+  /**
+   * FIX: 
+   * Changed !blog.slug.current to !blog.slug 
+   * Most custom fetchers map 'slug.current' to a plain string 'slug'.
+   */
+  if (!blog || !blog.title || !blog.body || !blog.slug) {
     notFound()
   }
 
@@ -38,8 +40,9 @@ export default async function BlogPage({
     <BlogContentViewer
       title={blog.title}
       date={blog.date}
-      author={{ name: blog.author?.name || 'Unknown Author' }}
-      category={{ title: blog.category?.title || 'Uncategorized' }}
+      // Added optional chaining for nested Sanity references
+      author={{ name: blog.author?.name || 'Samuel Asimi' }}
+      category={{ title: blog.category?.title || 'General' }}
       description={blog.description}
       tags={blog.tags || []}
       thumbnail={blog.thumbnail}

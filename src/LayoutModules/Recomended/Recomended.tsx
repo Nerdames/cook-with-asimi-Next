@@ -1,8 +1,6 @@
-// src/LayoutModules/Recomended/Recomended.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { sanityClient } from '@/lib/sanityClient'
 import { groq } from 'next-sanity'
 import SkeletonCard from '@/components/SkeletonCard/SkeletonCard'
@@ -34,7 +32,8 @@ export default function Recomended() {
       `
       try {
         const data: RecommendedPost[] = await sanityClient.fetch(query)
-        const shuffled = data.sort(() => 0.5 - Math.random()).slice(0, 8)
+        // Shuffles the latest 20 posts and picks 8 for variety
+        const shuffled = [...data].sort(() => 0.5 - Math.random()).slice(0, 8)
         setRecommended(shuffled)
       } catch (err) {
         console.error('Failed to fetch recommended posts', err)
@@ -55,13 +54,14 @@ export default function Recomended() {
           ? Array.from({ length: 8 }).map((_, idx) => (
               <SkeletonCard key={idx} />
             ))
-          : recommended.map(item => (
+          : recommended.map((item) => (
               <FigureContent
                 key={item._id}
                 slug={item.slug}
                 image={item.thumbnail?.asset.url || 'https://via.placeholder.com/140x100'}
                 text={item.title}
-                tag={item.tags[0] || undefined}
+                // Safely grab the first tag or pass undefined
+                tag={item.tags && item.tags.length > 0 ? item.tags[0] : undefined}
               />
             ))}
       </div>
